@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tvEspabelecimento"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="19dp"
+        android:text="Teste super mercado"/>
+
+    <Button
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+        android:drawableRight="@drawable/ic_apagar"
+            android:text="Excuir"/>
+
+    <TextView
+        android:id="@+id/tvQtdItensSim"
+        android:layout_width="wrap_content"
+        android:layout_below="@+id/tvEspabelecimento"
+        android:layout_height="wrap_content"
+        android:text="Itens em estoque: 55"/>
+
+    <TextView
+        android:id="@+id/tvQtdItensNao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvQtdItensSim"
+        android:text="Itens sem estoque: 33"/>
+    <TextView
+        android:id="@+id/tvTotalItens"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvQtdItensNao"
+        android:text="Total Itens verificados: 88"/>
+    <TextView
+        android:id="@+id/tvData"
+        android:layout_width="wrap_content"
+        android:layout_below="@+id/tvQtdItensNao"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/tvTotalItens"
+        android:layout_height="wrap_content"
+        android:text="Data: 25/02/2017"/>
+
+
+
+
+</RelativeLayout>
+
+
+</LinearLayout>

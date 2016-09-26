@@ -16,31 +16,19 @@
         android:text="Cliente: "
         android:id="@+id/textViewcCli"/>
 
-    <Spinner
-        android:layout_width="wrap_content"
+    <EditText
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/spinnerClientes"
+        android:id="@+id/edCliente"
         android:layout_below="@+id/textViewcCli"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="+ Cliente"
-        android:id="@+id/button"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_above="@+id/textView2"
-        android:layout_alignRight="@+id/spinnerClientes" />
+        />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Nome Cotação: "
         android:id="@+id/textView2"
-        android:layout_below="@+id/spinnerClientes" />
+        android:layout_below="@+id/edCliente" />
     <EditText
         android:id="@+id/etNomeCotacao"
         android:layout_width="match_parent"
@@ -53,7 +41,7 @@
         android:layout_below="@+id/etNomeCotacao"
         android:id="@+id/textView3"/>
     <EditText
-        android:layout_width="170dp"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:id="@+id/etCidade"
         android:layout_below="@+id/textView3"/>
@@ -68,21 +56,35 @@
         android:id="@+id/textView4"/>
     <EditText
         android:id="@+id/etData"
-        android:layout_width="match_parent"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
+        android:text="21/9/2016"
         android:layout_toRightOf="@+id/etCidade"
         android:layout_below="@+id/textView3"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
+   <Button
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_toRightOf="@+id/etData"
+       android:id="@+id/btnPegarData"
+       android:layout_below="@+id/textView4"
+       android:text="Pegar Data"/>
+    <Button
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/etData">
-     <ListView
-         android:id="@+id/ListaProdutos"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"></ListView>
+        android:id="@+id/btnCancelar"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:text="Cancelar"
+        />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnSalvar"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:text="Salvar"
+        />
 
-    </LinearLayout>
 
 
 </RelativeLayout>

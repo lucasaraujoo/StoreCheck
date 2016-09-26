@@ -9,6 +9,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+
 import badgears.storecheck.Dao.tskIniciarBD;
 import badgears.storecheck.Modelos.MCotacao;
 import badgears.storecheck.Controladores.ControladorCotacao;
@@ -24,16 +26,26 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_arc_menu_1);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                //criar cotacao
+                //criar cotacao NORMAL
                 MCotacao objCotacao = new MCotacao();
                 Intent intAddCotacao = new Intent(getBaseContext(), ControladorCotacao.class);
                 intAddCotacao.putExtra("objCotacao", objCotacao);
                 startActivityForResult(intAddCotacao, EDIT_COTACAO);
+
+            }
+        });
+
+        FloatingActionButton fab2 = (FloatingActionButton) findViewById(R.id.fab_arc_menu_2);
+        fab2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Cria cotação biscoitos
+                Toast.makeText(getApplicationContext(), "Biscoitos", Toast.LENGTH_SHORT).show();
 
             }
         });

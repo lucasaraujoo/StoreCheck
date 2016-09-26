@@ -1,10 +1,13 @@
 package badgears.storecheck.Controladores;
 
+import badgears.storecheck.EscolherItensCotar;
+import badgears.storecheck.ItemListView;
 import badgears.storecheck.Modelos.MCotacao;
 import badgears.storecheck.R;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.format.DateUtils;
@@ -25,7 +28,10 @@ public class ControladorCotacao extends AppCompatActivity implements Button.OnCl
     private EditText edNomeCotacao ;
     private EditText edDataCotacao;
 
+
     private Button botao;
+    private Button btnSalvar;
+
     static final int DATE_DIALOG_ID = 0;
 
     @Override
@@ -38,6 +44,9 @@ public class ControladorCotacao extends AppCompatActivity implements Button.OnCl
 
         botao = (Button) findViewById(R.id.btnPegarData);
         botao.setOnClickListener(this);
+
+        btnSalvar = (Button) findViewById(R.id.btnSalvar);
+        btnSalvar.setOnClickListener(this);
 
         this.carregaCotacaoRecebida();
     }
@@ -79,6 +88,11 @@ public class ControladorCotacao extends AppCompatActivity implements Button.OnCl
     public void onClick(View v) {
         if (v == botao)
             showDialog(DATE_DIALOG_ID);
+
+        if(v==btnSalvar){
+            Intent it = new Intent(ControladorCotacao.this, EscolherItensCotar.class);
+            startActivity(it);
+        }
     }
 
     private void setCotacaoRecebida(){

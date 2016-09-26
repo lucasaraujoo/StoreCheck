@@ -1,42 +1,70 @@
 package badgears.storecheck;
 
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.RadioButton;
+import android.widget.TextView;
+
 /**
  * Created by lucas on 21/09/16.
  */
 
-public class ItemListView {
-    private String Estabelecimento;
-    private int ItensEstoque;
-    private int ItensSemEstoque;
-    private int TotalItens;
+public class ItemListView extends BaseAdapter {
 
-    public ItemListView(){
+    // Declare Variables
+    Context context;
+    Boolean[] sim;
+    Boolean[] nao;
+    String[] Produtos;
+    LayoutInflater inflater;
 
+    public ItemListView(Context context, Boolean[] sim, Boolean[] nao, String[] Produtos ) {
+        this.context = context;
+        this.sim = sim;
+        this.nao = nao;
+        this.Produtos = Produtos;
     }
 
-    public ItemListView(String Esta, int ComEstoq, int SemEstoq, int Total){
-        this.Estabelecimento = Esta;
-        this.ItensEstoque = ComEstoq;
-        this.ItensSemEstoque = SemEstoq;
-        this.TotalItens = Total;
+    @Override
+    public int getCount() {
+        return Produtos.length;
     }
 
-    public String getEstabalecimento(){
-        return Estabelecimento;
+    @Override
+    public Object getItem(int position) {
+        return null;
     }
-    public void setEstabelecimento(String Esta){
-        this.Estabelecimento = Esta;
-    }
-    public int getItensEmEstoque(){
-        return ItensEstoque;
-    }
-    public void setItensEmEstoque(int EmEstoq){
-        this.ItensEstoque = EmEstoq;
-    }
-    public int getItensSemEstoque(){
-        return ItensSemEstoque;
-    }
-    public void setItensSemEstoqe(){
 
+    @Override
+    public long getItemId(int position) {
+        return 0;
+    }
+
+    public View getView(int position, View convertView, ViewGroup parent) {
+
+        // Declare Variables
+        RadioButton rbSim;
+        RadioButton rbNao;
+        TextView txtProduto;
+
+        //http://developer.android.com/intl/es/reference/android/view/LayoutInflater.html
+        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        View itemView = inflater.inflate(R.layout.produtos_listview, parent, false);
+
+        // Locate the TextViews in listview_item.xml
+        rbSim = (RadioButton) itemView.findViewById(R.id.rbSim);
+        rbNao = (RadioButton) itemView.findViewById(R.id.rbNao);
+        txtProduto = (TextView) itemView.findViewById(R.id.tvNomeProduto);
+
+        // Capture position and set to the TextViews
+        rbSim.setChecked(sim[position]);
+        rbNao.setChecked(nao[position]);
+        txtProduto.setText(Produtos[position]);
+
+        return itemView;
     }
 }

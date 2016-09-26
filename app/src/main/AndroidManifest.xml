@@ -21,6 +21,7 @@
         <activity android:name=".Cotar" />
         <activity android:name=".ColocarPrecos" />
         <activity android:name=".Controladores.ControladorCotacao" />
+        <activity android:name=".EscolherItensCotar"></activity>
     </application>
 
 </manifest>

@@ -9,15 +9,23 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 import badgears.storecheck.Dao.tskIniciarBD;
 import badgears.storecheck.Modelos.MCotacao;
 import badgears.storecheck.Controladores.ControladorCotacao;
+import badgears.storecheck.Controladores.taskGetListaCotacao;
 
 public class MainActivity extends AppCompatActivity {
 
     private final int EDIT_COTACAO = 8943;
+
+    private ListView lista = null;
+    private AdapterCotacao adapterCotacao = null;
+    private ArrayList<MCotacao> listaDeCotacoes = null; 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        this.lista = (ListView) findViewById(R.id.lvCotacoes);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_arc_menu_1);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -51,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         this.VerificaBD();
+        this.asyncGetListaDeCotacoes();
     }
 
     private void VerificaBD() {
@@ -85,5 +95,19 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == EDIT_COTACAO){
             //// TODO: 24/09/2016 receber cotacao e inserir no list
         }
+    }
+
+    private void asyncGetListaDeCotacoes() {
+
+        new taskGetListaCotacao(this).execute();
+
+    }
+
+    public void setListaDeCotacoes(ArrayList<MCotacao> oLista){
+
+        this.listaDeCotacoes = oLista;
+        this.adapterCotacao = new AdapterCotacao(this, oLista);
+        this.lista.setAdapter(this.adapterCotacao);
+        
     }
 }

@@ -12,9 +12,10 @@ public class dbUtil {
 
             "CREATE TABLE clientes ("+
                     "Id INTEGER  PRIMARY KEY AUTOINCREMENT,"+
-                    "Datacad     DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,"+
                     "Nome        TEXT NOT NULL,"+
+                    "Datacad     DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,"+
                     "CPFCNPJ     TEXT,"+
+                    "Telefone    TEXT,"+
                     "Cidade      TEXT NOT NULL);",
 
             "CREATE TABLE cotacao ("+

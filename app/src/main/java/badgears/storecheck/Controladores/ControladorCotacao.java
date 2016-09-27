@@ -31,6 +31,7 @@ public class ControladorCotacao extends AppCompatActivity implements Button.OnCl
 
     private Button botao;
     private Button btnSalvar;
+    private Button btnCancelar;
 
     static final int DATE_DIALOG_ID = 0;
 
@@ -47,6 +48,11 @@ public class ControladorCotacao extends AppCompatActivity implements Button.OnCl
 
         btnSalvar = (Button) findViewById(R.id.btnSalvar);
         btnSalvar.setOnClickListener(this);
+
+        btnCancelar = (Button) findViewById(R.id.btnCancelar);
+        btnCancelar.setOnClickListener(this);
+
+
 
         this.carregaCotacaoRecebida();
     }
@@ -92,6 +98,9 @@ public class ControladorCotacao extends AppCompatActivity implements Button.OnCl
         if(v==btnSalvar){
             Intent it = new Intent(ControladorCotacao.this, EscolherItensCotar.class);
             startActivity(it);
+        }
+        if(v==btnCancelar){
+            finish();
         }
     }
 

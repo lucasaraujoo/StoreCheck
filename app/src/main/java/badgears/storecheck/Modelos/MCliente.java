@@ -11,12 +11,62 @@ public class MCliente implements Parcelable, Comparable<MCliente> {
     protected String Nome;
     protected String CPFCNPJ;
     protected String Cidade;
+    protected String Telefone;
+
 
     protected MCliente(Parcel in) {
         id = in.readInt();
         Nome = in.readString();
         CPFCNPJ = in.readString();
         Cidade = in.readString();
+        Telefone = in.readString();
+    }
+
+    public MCliente() {
+        this.CPFCNPJ = "";
+        this.Cidade = "";
+        this.Telefone = "";
+    }
+
+    public String getCidade() {
+        return Cidade;
+    }
+
+    public void setCidade(String cidade) {
+        Cidade = cidade;
+    }
+
+    public String getCPFCNPJ() {
+        return CPFCNPJ;
+    }
+
+    public void setCPFCNPJ(String CPFCNPJ) {
+        this.CPFCNPJ = CPFCNPJ;
+    }
+
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getNome() {
+        return Nome;
+    }
+
+    public void setNome(String nome) {
+        Nome = nome;
+    }
+
+    public String getTelefone() {
+        return Telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        Telefone = telefone;
     }
 
     public static final Creator<MCliente> CREATOR = new Creator<MCliente>() {
@@ -47,5 +97,6 @@ public class MCliente implements Parcelable, Comparable<MCliente> {
         parcel.writeString(Nome);
         parcel.writeString(CPFCNPJ);
         parcel.writeString(Cidade);
+        parcel.writeString(Telefone);
     }
 }

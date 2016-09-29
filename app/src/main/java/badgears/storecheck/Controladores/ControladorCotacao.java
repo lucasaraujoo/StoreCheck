@@ -1,12 +1,17 @@
 package badgears.storecheck.Controladores;
 
+import badgears.storecheck.Dao.MDaoCliente;
+import badgears.storecheck.Dao.MDaoCotacao;
 import badgears.storecheck.EscolherItensCotar;
 import badgears.storecheck.ItemListView;
+import badgears.storecheck.Modelos.MCliente;
 import badgears.storecheck.Modelos.MCotacao;
 import badgears.storecheck.R;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,6 +22,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -24,9 +30,13 @@ import java.util.Date;
 public class ControladorCotacao extends AppCompatActivity implements Button.OnClickListener {
 
     private MCotacao oCotacaoEditar = null;
+    private MCliente oCliente       = null;
 
     private EditText edNomeCotacao ;
     private EditText edDataCotacao;
+    private EditText edNomeCliente;
+    private EditText edCidade;
+    private EditText edTelefone;
 
 
     private Button botao;
@@ -40,8 +50,11 @@ public class ControladorCotacao extends AppCompatActivity implements Button.OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cotar);
         //// TODO: 24/09/2016 Criar Dao cotacao e funções para gravação
-        this.edDataCotacao = (EditText) findViewById(R.id.etData);
-        this.edNomeCotacao = (EditText) findViewById(R.id.etNomeCotacao);
+        this.edDataCotacao  =   (EditText)  findViewById(R.id.etData);
+        this.edNomeCotacao  =   (EditText)  findViewById(R.id.etNomeCotacao);
+        this.edCidade       =   (EditText)  findViewById(R.id.etCidade);
+        this.edNomeCliente  =   (EditText)  findViewById(R.id.edCliente);
+        this.edTelefone     =   (EditText)  findViewById(R.id.edTelefone);
 
         botao = (Button) findViewById(R.id.btnPegarData);
         botao.setOnClickListener(this);
@@ -96,8 +109,19 @@ public class ControladorCotacao extends AppCompatActivity implements Button.OnCl
             showDialog(DATE_DIALOG_ID);
 
         if(v==btnSalvar){
-            Intent it = new Intent(ControladorCotacao.this, EscolherItensCotar.class);
-            startActivity(it);
+            this.atualizaObjetoCliente();
+            if (!this.salvaCliente()) return;
+            try {
+                this.atualizaObjetoCotacao();
+            } catch (ParseException e) {
+                e.printStackTrace();
+                return;
+            }
+            if (this.gravaCotacao()) {
+                //Escolher os itens para editar
+                Intent it = new Intent(ControladorCotacao.this, EscolherItensCotar.class);
+                startActivity(it);
+            }
         }
         if(v==btnCancelar){
             finish();
@@ -106,10 +130,103 @@ public class ControladorCotacao extends AppCompatActivity implements Button.OnCl
 
     private void setCotacaoRecebida(){
         this.oCotacaoEditar = (MCotacao) getIntent().getExtras().getParcelable("objCotacao");
+        this.carregaCliente();
     }
 
     private void carregaCotacaoParaEdicao(){
-        //this.edDataCotacao.setText(new SimpleDateFormat().format( new Date()));
+        //this.edDataCotacao.setText(new SimpleDateFormat("dd/MM/yyyy").format( new Date()));
         this.edNomeCotacao.setText(this.oCotacaoEditar.getNome());
     }
+
+    private void atualizaObjetoCliente(){
+        this.oCliente.setNome(this.edNomeCotacao.getText().toString());
+        this.oCliente.setCidade(this.edCidade.getText().toString());
+        this.oCliente.setNome(this.edNomeCliente.getText().toString());
+        this.oCliente.setTelefone(this.edTelefone.getText().toString());
+    }
+
+    private void atualizaObjetoCotacao() throws ParseException {
+        this.oCotacaoEditar.setData(new SimpleDateFormat("dd/MM/yyyy").parse(this.edDataCotacao.getText().toString()));
+        this.oCotacaoEditar.setNome(this.edNomeCotacao.getText().toString());
+        this.oCotacaoEditar.setIDCliente(this.oCliente.getId());
+
+    }
+
+    private void carregaCliente(){
+        //// TODO: 27/09/2016 Fazer função de buscar cliente no DaoCliente
+        if (this.oCliente == null){
+            this.oCliente = new MCliente();
+        }
+    }
+
+    //Salvar cliente
+    private Boolean salvaCliente(){
+        boolean retorno = false;
+        if (this.oCliente.getNome().trim().length() == 0){
+            Toast.makeText(ControladorCotacao.this, "Informe o Nome do Cliente!", Toast.LENGTH_SHORT).show();
+            this.edNomeCliente.requestFocus();
+            return false;
+        }
+
+        MDaoCliente oDao = new MDaoCliente(this);
+        try {
+            //verifica se já existe
+            int IDCliente = oDao.getIDCliente(this.oCliente);
+            if (IDCliente == 0) {
+                retorno = oDao.gravaCliente(this.oCliente);
+            }else{
+                this.oCliente.setId(IDCliente);
+                retorno = true;
+            }
+        }catch (Exception e){
+            AlertDialog dialog = new AlertDialog.Builder(this)
+                    .setTitle(this.getString(R.string.app_name))
+                    .setMessage("Erro ao manipular cliente na Base de Dados!")
+                    .setCancelable(false)
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            return;
+                        }
+                    }).create();
+
+            dialog.show();
+        }finally {
+            oDao.fechar();
+            oDao = null;
+        }
+        return retorno;
+    }
+
+    private boolean gravaCotacao(){
+
+        Boolean retorno = false;
+        if (this.oCotacaoEditar.getNome().trim().length() == 0){
+            Toast.makeText(ControladorCotacao.this, "Informe o Nome da Cotação!", Toast.LENGTH_SHORT).show();
+            this.edNomeCotacao.requestFocus();
+            return false;
+        }
+
+        MDaoCotacao oDaoCotacao = new MDaoCotacao(this);
+        try{
+            retorno = oDaoCotacao.gravaCotacao(this.oCotacaoEditar);
+        }catch (Exception e){
+            AlertDialog dialog = new AlertDialog.Builder(this)
+                    .setTitle(this.getString(R.string.app_name))
+                    .setMessage("Erro ao salvar Cotação na Base da Dados!")
+                    .setCancelable(false)
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            return;
+                        }
+                    }).create();
+
+            dialog.show();
+        }finally {
+            oDaoCotacao.fechar();
+            oDaoCotacao = null;
+        }
+        return retorno;
+    }
+
+
 }

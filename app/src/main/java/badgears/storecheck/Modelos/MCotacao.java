@@ -13,13 +13,15 @@ public class MCotacao implements Parcelable, Comparable<MCotacao> {
     protected String Nome;
     protected int IDCliente;
     protected Date DataCotacao;
-
+    protected int ID;
+    //// TODO: 26/09/2016 criar classe dos itens da cotacao e criar objeto aqui
 
     protected MCotacao(Parcel in) {
         Nome = in.readString();
         IDCliente = in.readInt();
         long tmpDate = in.readLong();
         this.DataCotacao = tmpDate == -1 ? null : new Date(tmpDate);
+        ID = in.readInt();
     }
 
     public static final Creator<MCotacao> CREATOR = new Creator<MCotacao>() {
@@ -58,6 +60,14 @@ public class MCotacao implements Parcelable, Comparable<MCotacao> {
         DataCotacao = data;
     }
 
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
     public MCotacao() {
         this.DataCotacao = new Date();
     }
@@ -78,6 +88,7 @@ public class MCotacao implements Parcelable, Comparable<MCotacao> {
         parcel.writeString(Nome);
         parcel.writeInt(IDCliente);
         parcel.writeLong(DataCotacao != null ? DataCotacao.getTime() : -1);
+        parcel.writeInt(ID);
     }
 }
 

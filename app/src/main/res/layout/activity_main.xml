@@ -28,21 +28,21 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:menu_color="#0fb33d"
+        app:menu_color="#4169E1"
         app:menu_open="arc_left"
         app:menu_scr="@drawable/ic_apagar">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#000000"
-            android:text="PDA"
+            android:text="PDB"
             android:elevation="100dp"/>
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab_arc_menu_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@android:drawable/ic_dialog_info"
-            app:backgroundTint="#0fb33d" />
+            app:backgroundTint="#6495ED" />
 
 
         <android.support.design.widget.FloatingActionButton
@@ -50,7 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@android:drawable/ic_dialog_alert"
-            app:backgroundTint="#0fb33d" />
+            app:backgroundTint="#6495ED" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

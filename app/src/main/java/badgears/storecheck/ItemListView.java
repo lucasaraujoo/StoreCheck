@@ -61,8 +61,8 @@ public class ItemListView extends BaseAdapter {
         txtProduto = (TextView) itemView.findViewById(R.id.tvNomeProduto);
 
         // Capture position and set to the TextViews
-        rbSim.setChecked(sim[position]);
-        rbNao.setChecked(nao[position]);
+       // rbSim.setChecked(sim[position]);
+        //rbNao.setChecked(nao[position]);
         txtProduto.setText(Produtos[position]);
 
         return itemView;

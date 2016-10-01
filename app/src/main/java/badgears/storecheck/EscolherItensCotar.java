@@ -24,12 +24,9 @@ import badgears.storecheck.Modelos.MProduto;
 public class EscolherItensCotar extends AppCompatActivity {
 
     public badgears.storecheck.Dao.MDaoProduto Produtos = null;
-    private ArrayList<MProduto> listaproduto = null;
+    public ArrayList<MProduto> listaproduto = null;
 
-    String[] produtos = new String[]{
-            "Poduto 1",
-            "Produto 2"
-    };
+    String[] produtos = new String[]{};
     Boolean[] sim = new Boolean[]{
            false,
             false,
@@ -45,7 +42,7 @@ public class EscolherItensCotar extends AppCompatActivity {
 
     public Button btnCancelar;
     public Button btnSalva;
-    final ListView lista = (ListView) findViewById(R.id.listaProdutos);
+    public ListView lista;
     ItemListView adapter;
 
     @Override
@@ -62,7 +59,16 @@ public class EscolherItensCotar extends AppCompatActivity {
             }
         });
 
+        btnSalva = (Button) findViewById(R.id.btSalvar);
+        btnSalva.setOnClickListener(new View.OnClickListener() {
 
+            @Override
+            public void onClick(View view) {
+                Salvar();
+            }
+        });
+
+        lista = (ListView) findViewById(R.id.listaProdutos);
         adapter = new ItemListView(this, sim,nao, produtos);
         lista.setAdapter(adapter);
 
@@ -113,7 +119,33 @@ public class EscolherItensCotar extends AppCompatActivity {
         });
 
         alert.show();
+    }
 
+    public void Salvar(){
+
+
+
+        AlertDialog alert = new AlertDialog.Builder(this).create();
+        alert.setTitle("Anteção");
+        alert.setMessage("Deseja fechar a cotação ?");
+        alert.setButton(Dialog.BUTTON_POSITIVE,"Sim, salvar",new DialogInterface.OnClickListener(){
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getApplicationContext(), "Produtos salvos... \n Faltando gerar relatorio", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
+        alert.setButton(Dialog.BUTTON_NEGATIVE,"Não, cancelar",new DialogInterface.OnClickListener(){
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getApplicationContext(), "Continuando cotação...", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+        alert.show();
 
     }
 
@@ -123,16 +155,16 @@ public class EscolherItensCotar extends AppCompatActivity {
 
         try {
             listaproduto = oDao.getProdutos();
-         ///   produtos = Arrays.copyOf(produtos, produtos.length + listaproduto.size());
+            produtos = Arrays.copyOf(produtos, produtos.length + listaproduto.size());
             for(int i=0;i < listaproduto.size();i++){
-                Toast.makeText(getApplicationContext(), "Total: " + listaproduto.size(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "Total: " + listaproduto.size(), Toast.LENGTH_SHORT).show();
 
-                produtos[i] += listaproduto.get(i).getDescricao().toString();
+                produtos[i] =listaproduto.get(i).getDescricao().toString();
                 //TODO: Ver depois
             }
 
-//            adapter = new ItemListView(this, sim,nao, produtos);
-  //          lista.setAdapter(adapter);
+            adapter = new ItemListView(this, sim,nao, produtos);
+            lista.setAdapter(adapter);
 
         } catch (SQLException e) {
             e.printStackTrace();

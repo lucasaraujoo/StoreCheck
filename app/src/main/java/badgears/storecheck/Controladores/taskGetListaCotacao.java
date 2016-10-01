@@ -38,6 +38,7 @@ public class taskGetListaCotacao extends AsyncTask<Void, Void, ArrayList<MCotaca
         try {
             listaCotacao = oDao.getListaCotacao();
 
+
         } catch (SQLException e) {
             e.printStackTrace();
 

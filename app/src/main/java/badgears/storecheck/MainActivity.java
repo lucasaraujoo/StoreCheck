@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import badgears.storecheck.Dao.MDaoProduto;
 import badgears.storecheck.Dao.tskIniciarBD;
 import badgears.storecheck.Modelos.MCotacao;
 import badgears.storecheck.Controladores.ControladorCotacao;
@@ -25,7 +26,8 @@ public class MainActivity extends AppCompatActivity {
 
     private ListView lista = null;
     private AdapterCotacao adapterCotacao = null;
-    private ArrayList<MCotacao> listaDeCotacoes = null; 
+    private ArrayList<MCotacao> listaDeCotacoes = null;
+    private MDaoProduto Produtos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,12 @@ public class MainActivity extends AppCompatActivity {
         });
 
         this.VerificaBD();
+        Produtos = new MDaoProduto(this);
+        try {
+            Produtos.criaProdutsSeNaoExistir();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         this.asyncGetListaDeCotacoes();
     }
 

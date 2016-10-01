@@ -94,8 +94,12 @@ public class ControladorCotacao extends AppCompatActivity implements Button.OnCl
     private DatePickerDialog.OnDateSetListener mDateSetListener = new DatePickerDialog.OnDateSetListener() {
         public void onDateSet(DatePicker view, int year, int monthOfYear,
                               int dayOfMonth) {
-            String data = String.valueOf(dayOfMonth) + " /"
-                    + String.valueOf(monthOfYear+1) + " /" + String.valueOf(year);
+            String Mes = "";
+            if(monthOfYear<10){
+                Mes = "0" + (monthOfYear+1);
+            }
+            String data = String.valueOf(dayOfMonth) + "/"
+                    + Mes + "/" + String.valueOf(year);
             Toast.makeText(ControladorCotacao.this,
                     "DATA = " + data, Toast.LENGTH_SHORT)
                     .show();

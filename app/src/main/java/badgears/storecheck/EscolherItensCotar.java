@@ -2,6 +2,7 @@ package badgears.storecheck;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.database.SQLException;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,13 +12,23 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import badgears.storecheck.Dao.MDaoCotacao;
+import badgears.storecheck.Dao.MDaoProduto;
+import badgears.storecheck.Modelos.MCotacao;
+import badgears.storecheck.Modelos.MProduto;
+
+
 public class EscolherItensCotar extends AppCompatActivity {
 
+    public badgears.storecheck.Dao.MDaoProduto Produtos = null;
+    private ArrayList<MProduto> listaproduto = null;
+
     String[] produtos = new String[]{
-            "produto 1",
-            "produto 2",
-            "produto 3",
-            "produto 4",
+            "Poduto 1",
+            "Produto 2"
     };
     Boolean[] sim = new Boolean[]{
            false,
@@ -34,7 +45,7 @@ public class EscolherItensCotar extends AppCompatActivity {
 
     public Button btnCancelar;
     public Button btnSalva;
-
+    final ListView lista = (ListView) findViewById(R.id.listaProdutos);
     ItemListView adapter;
 
     @Override
@@ -51,7 +62,7 @@ public class EscolherItensCotar extends AppCompatActivity {
             }
         });
 
-        final ListView lista = (ListView) findViewById(R.id.listaProdutos);
+
         adapter = new ItemListView(this, sim,nao, produtos);
         lista.setAdapter(adapter);
 
@@ -69,6 +80,7 @@ public class EscolherItensCotar extends AppCompatActivity {
                 return false;
             }
         });
+        PegarProdutos ();
     }
 
     public void SairSemSalvar(){
@@ -103,5 +115,33 @@ public class EscolherItensCotar extends AppCompatActivity {
         alert.show();
 
 
+    }
+
+    public void PegarProdutos (){
+        MDaoProduto oDao = new MDaoProduto(this);
+
+
+        try {
+            listaproduto = oDao.getProdutos();
+         ///   produtos = Arrays.copyOf(produtos, produtos.length + listaproduto.size());
+            for(int i=0;i < listaproduto.size();i++){
+                Toast.makeText(getApplicationContext(), "Total: " + listaproduto.size(), Toast.LENGTH_SHORT).show();
+
+                produtos[i] += listaproduto.get(i).getDescricao().toString();
+                //TODO: Ver depois
+            }
+
+//            adapter = new ItemListView(this, sim,nao, produtos);
+  //          lista.setAdapter(adapter);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        } finally {
+            oDao.fechar();
+        }
     }
 }

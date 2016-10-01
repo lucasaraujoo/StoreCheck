@@ -1,6 +1,7 @@
 package badgears.storecheck.Dao;
 
 import android.content.Context;
+import android.util.Log;
 
 /**
  * Created by Lucas on 23/09/2016.
@@ -28,9 +29,16 @@ public class dbUtil {
 
             "CREATE TABLE produtoscotacao ("+
                     "Id INTEGER PRIMARY KEY,"+
-                    "Descricao  TEXT NOT NULL,"+
+                    "Idproduto  INTEGER NOT NULL,"+
                     "Preco1     REAL NOT NULL,"+
                     "Preco2     REAL NOT NULL"+
+                    ");",
+
+            "CREATE TABLE produtos ("+
+                    "Id INTEGER PRIMARY KEY,"+
+                    "Descricao  TEXT NOT NULL,"+
+                    "Categoria     TEXT NOT NULL,"+
+                    "Tipo     TEXT NOT NULL"+
                     ");",
 
 
@@ -39,7 +47,7 @@ public class dbUtil {
 
     public dbUtil(Context contexto) {
         dHelper = new dbHelper(contexto, "storecheck", 1, createBDSQL, null);
-
+        Log.i("teste", "fuichamado");
     }
 
     public void verificaBD() {

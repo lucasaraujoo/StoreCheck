@@ -28,19 +28,6 @@ public class EscolherItensCotar extends AppCompatActivity {
     public ArrayList<MProduto> listaproduto = null;
     private MCotacao oCotacao = null;
     String[] produtos = new String[]{};
-    Boolean[] sim = new Boolean[]{
-           false,
-            false,
-            false,
-            false,
-    };
-    Boolean[] nao = new Boolean[]{
-            false,
-            false,
-            false,
-            false,
-    };
-
     public Button btnCancelar;
     public Button btnSalva;
     public ListView lista;

@@ -3,7 +3,6 @@ package badgears.storecheck;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -12,6 +11,7 @@ import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import badgears.storecheck.Dao.MDaoProduto;
@@ -19,6 +19,7 @@ import badgears.storecheck.Dao.tskIniciarBD;
 import badgears.storecheck.Modelos.MCotacao;
 import badgears.storecheck.Controladores.ControladorCotacao;
 import badgears.storecheck.Controladores.taskGetListaCotacao;
+import jxl.write.WriteException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -68,7 +69,19 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        
         this.asyncGetListaDeCotacoes();
+       Excel t = new Excel(this);
+        Toast.makeText(MainActivity.this, "Criar relatorio", Toast.LENGTH_SHORT).show();
+      //  CellBackgroundPatternTest c = new CellBackgroundPatternTest();
+
+        try {
+            t.exportToExcel();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (WriteException e) {
+            e.printStackTrace();
+        }
     }
 
     private void VerificaBD() {

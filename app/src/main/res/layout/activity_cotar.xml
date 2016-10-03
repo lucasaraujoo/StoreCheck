@@ -69,18 +69,18 @@
         android:id="@+id/textView4"/>
     <EditText
         android:id="@+id/etData"
-        android:layout_width="100dp"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:text="21/9/2016"
+        android:text="21/09/2016"
         android:layout_toRightOf="@+id/etCidade"
         android:layout_below="@+id/textView3"/>
    <Button
-       android:layout_width="wrap_content"
+       android:layout_width="50dp"
        android:layout_height="wrap_content"
        android:layout_toRightOf="@+id/etData"
        android:id="@+id/btnPegarData"
        android:layout_below="@+id/textView4"
-       android:text="Pegar Data"/>
+       android:drawableRight="@drawable/ic_data" />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

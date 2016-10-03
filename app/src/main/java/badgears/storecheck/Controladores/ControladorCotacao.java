@@ -67,6 +67,11 @@ public class ControladorCotacao extends AppCompatActivity implements Button.OnCl
 
 
 
+        long date = System.currentTimeMillis();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/M/yyyy");
+        String dateString = sdf.format(date);
+        edDataCotacao.setText(dateString);
+
         this.carregaCotacaoRecebida();
     }
 
@@ -95,8 +100,11 @@ public class ControladorCotacao extends AppCompatActivity implements Button.OnCl
         public void onDateSet(DatePicker view, int year, int monthOfYear,
                               int dayOfMonth) {
             String Mes = "";
-            if(monthOfYear<10){
+            if(monthOfYear<9){
                 Mes = "0" + (monthOfYear+1);
+            }
+            else{
+                Mes = String.valueOf(monthOfYear+1);
             }
             String data = String.valueOf(dayOfMonth) + "/"
                     + Mes + "/" + String.valueOf(year);

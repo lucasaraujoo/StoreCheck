@@ -27,12 +27,7 @@ public class dbUtil {
                     "FOREIGN KEY (IDCliente) REFERENCES clientes(Id));"
                     ,
 
-            "CREATE TABLE produtoscotacao ("+
-                    "Id INTEGER PRIMARY KEY,"+
-                    "Idproduto  INTEGER NOT NULL,"+
-                    "Preco1     REAL NOT NULL,"+
-                    "Preco2     REAL NOT NULL"+
-                    ");",
+
 
             "CREATE TABLE produtos ("+
                     "Id INTEGER PRIMARY KEY,"+
@@ -41,6 +36,15 @@ public class dbUtil {
                     "Tipo     TEXT NOT NULL"+
                     ");",
 
+            "CREATE TABLE produtoscotacao ("+
+                    "Id INTEGER PRIMARY KEY,"+
+                    "IdCotacao  INTEGER NOT NULL,"+
+                    "Idproduto  INTEGER NOT NULL,"+
+                    "Preco1     REAL NOT NULL,"+
+                    "Preco2     REAL NOT NULL,"+
+                    "Cotar      Integer NOT NULL,"+
+                    "FOREIGN KEY (IdCotacao) REFERENCES cotacao(Id));"
+            ,
 
 
     };

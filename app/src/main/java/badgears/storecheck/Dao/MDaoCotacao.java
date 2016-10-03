@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import badgears.storecheck.Modelos.MCotacao;
+import badgears.storecheck.Modelos.MCotacaoItem;
 
 /**
  * Created by Lucas on 26/09/2016.
@@ -18,6 +19,44 @@ public class MDaoCotacao extends  DaoMain {
 
     public MDaoCotacao(Context contexto) {
         super(contexto);
+    }
+
+    public boolean gravaItensCotacao(MCotacao objCotacao){
+        boolean retorno = false;
+        String InsertProdutoCotacao = "Insert into produtoscotacao "+
+                "(IdCotacao, Idproduto, Preco1, Preco2, Cotar) values "+
+                "(?, ?, ?, ?, ?)";
+
+        SQLiteStatement stmt = null;
+        MCotacaoItem oItem = null;
+        int idCotacaoItem ;
+
+        db.beginTransaction();
+        try {
+            stmt = db.compileStatement(InsertProdutoCotacao);
+            for (int i = 0; i < objCotacao.getItensCotacao().size(); i++) {
+                oItem = objCotacao.getItensCotacao().get(i);
+
+                stmt.bindLong(1, objCotacao.getID());
+                stmt.bindLong(2, oItem.getoProduto().getId());
+                stmt.bindDouble(3, oItem.getPreco1());
+                stmt.bindDouble(4, oItem.getPreco2());
+                stmt.bindLong(5, oItem.getbCotar() ? 1 : 0);
+                idCotacaoItem = (int) stmt.executeInsert();
+                oItem.setId(idCotacaoItem);
+
+                stmt.clearBindings();
+
+
+
+
+            }
+            db.setTransactionSuccessful();
+            retorno = true;
+        }finally {
+            db.endTransaction();
+        }
+        return retorno;
     }
 
     public boolean gravaCotacao(MCotacao objCotacao){

@@ -6,7 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+
+import badgears.storecheck.Modelos.MCotacaoItem;
 
 /**
  * Created by lucas on 21/09/16.
@@ -15,22 +20,21 @@ import android.widget.TextView;
 public class ItemListView extends BaseAdapter {
 
     // Declare Variables
-    Context context;
+    Context mcontext;
     Boolean[] sim;
     Boolean[] nao;
     String[] Produtos;
     LayoutInflater inflater;
+    ArrayList<MCotacaoItem> listaItensCotacao ;
 
-    public ItemListView(Context context, Boolean[] sim, Boolean[] nao, String[] Produtos ) {
-        this.context = context;
-        this.sim = sim;
-        this.nao = nao;
-        this.Produtos = Produtos;
+    public ItemListView(Context contexto, ArrayList<MCotacaoItem> ItensCotacao ) {
+        this.mcontext = contexto;
+        this.listaItensCotacao = ItensCotacao;
     }
 
     @Override
     public int getCount() {
-        return Produtos.length;
+        return listaItensCotacao.size();
     }
 
     @Override
@@ -43,27 +47,38 @@ public class ItemListView extends BaseAdapter {
         return 0;
     }
 
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         // Declare Variables
-        RadioButton rbSim;
+        final RadioButton rbSim;
         RadioButton rbNao;
+        final RadioGroup rgCotar;
         TextView txtProduto;
 
         //http://developer.android.com/intl/es/reference/android/view/LayoutInflater.html
-        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater = (LayoutInflater) mcontext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        View itemView = inflater.inflate(R.layout.produtos_listview, parent, false);
+        final View itemView = inflater.inflate(R.layout.produtos_listview, parent, false);
 
         // Locate the TextViews in listview_item.xml
         rbSim = (RadioButton) itemView.findViewById(R.id.rbSim);
         rbNao = (RadioButton) itemView.findViewById(R.id.rbNao);
+        rgCotar = (RadioGroup) itemView.findViewById(R.id.radiogroup);
         txtProduto = (TextView) itemView.findViewById(R.id.tvNomeProduto);
 
         // Capture position and set to the TextViews
        // rbSim.setChecked(sim[position]);
         //rbNao.setChecked(nao[position]);
-        txtProduto.setText(Produtos[position]);
+        txtProduto.setText(listaItensCotacao.get(position).getoProduto().getDescricao());
+        rbSim.setChecked( listaItensCotacao.get(position).getbCotar());
+        rbNao.setChecked( listaItensCotacao.get(position).getbCotar() == false);
+
+        rgCotar.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                listaItensCotacao.get(position).setbCotar(i == rbSim.getId());
+            }
+        });
 
         return itemView;
     }

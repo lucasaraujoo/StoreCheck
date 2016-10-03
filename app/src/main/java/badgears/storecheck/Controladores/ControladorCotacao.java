@@ -124,6 +124,7 @@ public class ControladorCotacao extends AppCompatActivity implements Button.OnCl
             if (this.gravaCotacao()) {
                 //Escolher os itens para editar
                 Intent it = new Intent(ControladorCotacao.this, EscolherItensCotar.class);
+                it.putExtra("objCotacao", oCotacaoEditar);
                 startActivity(it);
             }
         }

@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -14,6 +15,15 @@ public class MCotacao implements Parcelable, Comparable<MCotacao> {
     protected int IDCliente;
     protected Date DataCotacao;
     protected int ID;
+    protected ArrayList<MCotacaoItem> itensCotacao ;
+
+    public ArrayList<MCotacaoItem> getItensCotacao() {
+        return itensCotacao;
+    }
+
+    public void setItensCotacao(ArrayList<MCotacaoItem> itensCotacao) {
+        this.itensCotacao = itensCotacao;
+    }
     //// TODO: 26/09/2016 criar classe dos itens da cotacao e criar objeto aqui
 
     protected MCotacao(Parcel in) {
@@ -22,6 +32,7 @@ public class MCotacao implements Parcelable, Comparable<MCotacao> {
         long tmpDate = in.readLong();
         this.DataCotacao = tmpDate == -1 ? null : new Date(tmpDate);
         ID = in.readInt();
+        itensCotacao = in.readArrayList(MCotacaoItem.class.getClassLoader());
     }
 
     public static final Creator<MCotacao> CREATOR = new Creator<MCotacao>() {
@@ -69,7 +80,9 @@ public class MCotacao implements Parcelable, Comparable<MCotacao> {
     }
 
     public MCotacao() {
+
         this.DataCotacao = new Date();
+        this.itensCotacao = new ArrayList<MCotacaoItem>();
     }
 
 
@@ -89,6 +102,7 @@ public class MCotacao implements Parcelable, Comparable<MCotacao> {
         parcel.writeInt(IDCliente);
         parcel.writeLong(DataCotacao != null ? DataCotacao.getTime() : -1);
         parcel.writeInt(ID);
+        parcel.writeList(itensCotacao);
     }
 }
 

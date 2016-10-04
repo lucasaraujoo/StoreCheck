@@ -1,17 +1,20 @@
 package badgears.storecheck.Controladores;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import badgears.storecheck.AdapterPrecos;
 import badgears.storecheck.Dao.MDaoCotacao;
 import badgears.storecheck.ItemListView;
+import badgears.storecheck.MainActivity;
 import badgears.storecheck.Modelos.MCotacao;
 import badgears.storecheck.Modelos.MCotacaoItem;
 import badgears.storecheck.R;
@@ -23,6 +26,7 @@ public class ControladorColocarPrecos extends AppCompatActivity {
     private ArrayList<MCotacaoItem> listaProdCotar;
     private AdapterPrecos adapterPrecos ;
     private Button btnSalvar;
+    private Button btnCancelar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,13 +35,26 @@ public class ControladorColocarPrecos extends AppCompatActivity {
 
         lista = (ListView) findViewById(R.id.ListaProdutosPrecos);
         btnSalvar = (Button) findViewById(R.id.btSalvar);
+        btnCancelar = (Button) findViewById(R.id.btCancelar);
 
         btnSalvar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 updatePrecos();
+                Toast.makeText(getApplicationContext(), "Produtos salvos", Toast.LENGTH_SHORT).show();
+                Intent secondActivity = new Intent(ControladorColocarPrecos.this.getApplicationContext(), MainActivity.class);
+                startActivity(secondActivity);
+                finish();
             }
         });
+        btnCancelar.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Intent secondActivity = new Intent(ControladorColocarPrecos.this.getApplicationContext(), MainActivity.class);
+            startActivity(secondActivity);
+            finish();
+        }
+    });
 
         listaProdCotar = new ArrayList<MCotacaoItem>();
         setCotacaoRecebida();

@@ -33,6 +33,9 @@ import jxl.write.biff.RowsExceededException;
 public class Excel extends DaoMain {
     public Context ctx;
     public ArrayList<MCategoria> Categorias = new ArrayList<MCategoria>();
+    public ArrayList<String> Opc = new ArrayList<String>();
+    public int Linha;
+
     public Excel(Context contexto) {
         super(contexto);
         ctx = contexto;
@@ -40,11 +43,11 @@ public class Excel extends DaoMain {
     private static WritableCellFormat getCellFormat(Colour colour) throws WriteException {
         WritableFont cellFont = new WritableFont(WritableFont.TIMES, 16);
         WritableCellFormat cellFormat = new WritableCellFormat(cellFont);
-       // cellFormat.setBackground(colour, pattern);
+        cellFormat.setBackground(colour);
         return cellFormat;
     }
     public void exportToExcel() throws IOException, WriteException{
-        Cursor cursor = db.rawQuery("select Descricao, Id, Categoria from produtos", null);
+        Cursor cursor = db.rawQuery("select Descricao, Id from produtos", null);
         Cursor prodto = db.rawQuery("select * from produtos order by Categoria",null);
         final String fileName = "TodoList.xls";
 
@@ -78,19 +81,18 @@ public class Excel extends DaoMain {
 
                 //sheet.addCell(label); // column and row
                 //sheet.addCell(label2);
-                if (cursor.getCount() > 0) {
-                    if (cursor.moveToFirst()) {
-                        do {
-                            String title = cursor.getString(cursor.getColumnIndex("Categoria"));
-                            //        String desc = cursor.getString(cursor.getColumnIndex("Categoria"));
+                if (cursor.moveToFirst()) {
+                    do {
+                        String title = cursor.getString(cursor.getColumnIndex("Descricao"));
+                //        String desc = cursor.getString(cursor.getColumnIndex("Categoria"));
 
-                            int i = cursor.getPosition() + 1;
-                            MCategoria m = new MCategoria(i, title);
-                            Categorias.add(m);
-                            sheet.addCell(new Label(i, 0, title, getCellFormat(Colour.GREEN))); // Escrevemos as categorias nas colunas
-                            // sheet.addCell(new Label(1, i, desc));
-                        } while (cursor.moveToNext());
-                    }
+                        int i = cursor.getPosition() + 1;
+                        Opc.add("Sim");
+                        MCategoria m = new MCategoria(i,title,Opc);
+                        Categorias.add(m);
+                        sheet.addCell(new Label(i, 0, title,getCellFormat(Colour.AQUA))); // Escrevemos as categorias nas colunas
+                       // sheet.addCell(new Label(1, i, desc));
+                    } while (cursor.moveToNext());
                 }
                 //closing cursor
                 cursor.close();
@@ -112,17 +114,24 @@ public class Excel extends DaoMain {
 
                         int i = prodto.getPosition() + 1;
                         int ii = 0;
-                        Toast.makeText(ctx, "i " + i, Toast.LENGTH_SHORT).show();
-                        for(int x=0;x<Categorias.size();x++){
-                            if(desc.equals(Categorias.get(x).getDescricao())){
-                                ii++;
+
+                        ArrayList<String> o = new ArrayList<String>();
+
+                        o = Categorias.get(i-1).getOpcoes();
+                       // Toast.makeText(ctx, "Teste " + o.get(i-1), Toast.LENGTH_SHORT).show();
+
                                // Toast.makeText(ctx, "Posição vai ser: " + Categorias.get(x).getId() + " para " + Categorias.get(x).getDescricao(), Toast.LENGTH_SHORT).show();
-                                sheet.addCell(new Label(Categorias.get(x).getId(), i, title));
+                        for(int x=1;x<=o.size();x++) {
+                            if(o.get(i-1).equals("Sim")) {
+                                sheet.addCell(new Label(i, x, o.get(i - 1),getCellFormat(Colour.GREEN)));
                             }
                             else{
-
+                                sheet.addCell(new Label(i, x, o.get(i - 1),getCellFormat(Colour.RED)));
                             }
                         }
+
+
+
 
                        // sheet.addCell(new Label(1, i, desc));
                     } while (prodto.moveToNext());

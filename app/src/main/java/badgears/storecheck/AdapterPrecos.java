@@ -61,6 +61,8 @@ public class AdapterPrecos extends BaseAdapter {
         edPreco1.setText(Double.toString( listaItens.get( position).getPreco1()));
         edPreco2.setText(Double.toString( listaItens.get( position).getPreco2()));
 
+
+
         edPreco1.addTextChangedListener(new TextWatcher() {
 
 
@@ -96,7 +98,7 @@ public class AdapterPrecos extends BaseAdapter {
             @Override
             public void afterTextChanged(Editable editable) {
                 if (!edPreco2.getText().toString().isEmpty()) {
-                    listaItens.get(position).setPreco1(Double.parseDouble(edPreco2.getText().toString()));
+                    listaItens.get(position).setPreco2(Double.parseDouble(edPreco2.getText().toString()));
                 }
             }
         });

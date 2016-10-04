@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         
         this.asyncGetListaDeCotacoes();
        Excel t = new Excel(this);
-        Toast.makeText(MainActivity.this, "Criar relatorio", Toast.LENGTH_SHORT).show();
+       // Toast.makeText(MainActivity.this, "Criar relatorio", Toast.LENGTH_SHORT).show();
       //  CellBackgroundPatternTest c = new CellBackgroundPatternTest();
 
         try {
@@ -107,6 +107,9 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, AjudaActivity.class);
             startActivity(intent);
             return true;
+        }
+        if(id == R.id.action_relatorios){
+            Toast.makeText(getApplication(), "Relatorios em desenvolvimento...", Toast.LENGTH_SHORT).show();
         }
 
         return super.onOptionsItemSelected(item);

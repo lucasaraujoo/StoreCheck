@@ -100,9 +100,9 @@ public class MDaoProduto extends DaoMain{
                 produtos.add(new MProduto("Barra grega", "Barras", "PDB"));
                 produtos.add(new MProduto("Kero Coco 200ml", "Kero coco", "PDB"));
                 produtos.add(new MProduto("Kero Coco 33-ml", "Kero Coco", "PDB"));
-                produtos.add(new MProduto("Toddy 60gr", "Cookie", "PDB"));
-                produtos.add(new MProduto("Toddy 75gr", "Cookie", "PDB"));
-                produtos.add(new MProduto("Toddy 150gr", "Cookie", "PDB"));
+                produtos.add(new MProduto("Cookie Toddy 60gr", "Cookie", "PDB"));
+                produtos.add(new MProduto("Cookie Toddy 75gr", "Cookie", "PDB"));
+                produtos.add(new MProduto("Cookie Toddy 150gr", "Cookie", "PDB"));
                 produtos.add(new MProduto("Quaker 150gr", "Cookie", "PDB"));
                 produtos.add(new MProduto("Quaker 140gr", "Cookie", "PDB"));
                 produtos.add(new MProduto("Quaker 40gr", "Cookie", "PDB"));

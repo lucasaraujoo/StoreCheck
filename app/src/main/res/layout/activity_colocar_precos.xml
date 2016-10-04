@@ -19,6 +19,8 @@
         android:layout_alignParentBottom="true" >
         <Button
             android:id="@+id/btCancelar"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -26,6 +28,8 @@
         <Button
             android:id="@+id/btSalvar"
             android:layout_width="0dp"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Salvar" />
@@ -34,6 +38,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textView"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
         android:text="Informe os valores:"
         android:textSize="30dp"
         android:gravity="center"
@@ -42,6 +48,8 @@
         android:layout_width="match_parent"
         android:layout_height="365dp"
         android:id="@+id/ListaProdutosPrecos"
+        android:descendantFocusability="afterDescendants"
+        android:focusable="false"
         android:layout_below="@+id/textView">
     </ListView>
 

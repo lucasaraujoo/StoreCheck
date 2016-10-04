@@ -37,7 +37,7 @@ public class MDaoCotacao extends  DaoMain {
 
                 stmt.bindDouble(1, oItem.getPreco1());
                 stmt.bindDouble(2, oItem.getPreco2());
-                stmt.bindDouble(3, oItem.getId());
+                stmt.bindLong(3, oItem.getId());
                 stmt.execute();
                 stmt.clearBindings();
             }

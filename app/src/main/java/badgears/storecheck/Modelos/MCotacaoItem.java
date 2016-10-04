@@ -21,6 +21,7 @@ public class MCotacaoItem implements Parcelable, Comparable<MCotacaoItem> {
     }
 
     protected MCotacaoItem(Parcel in) {
+        Id       = in.readInt();
         oProduto = in.readParcelable(MProduto.class.getClassLoader());
         Preco1      = in.readDouble();
         Preco2      = in.readDouble();
@@ -91,7 +92,7 @@ public class MCotacaoItem implements Parcelable, Comparable<MCotacaoItem> {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-
+        parcel.writeInt(Id);
         parcel.writeParcelable(oProduto, i);
         parcel.writeDouble(Preco1);
         parcel.writeDouble(Preco2);

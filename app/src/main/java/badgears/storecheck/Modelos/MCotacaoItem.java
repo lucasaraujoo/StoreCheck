@@ -22,6 +22,9 @@ public class MCotacaoItem implements Parcelable, Comparable<MCotacaoItem> {
 
     protected MCotacaoItem(Parcel in) {
         oProduto = in.readParcelable(MProduto.class.getClassLoader());
+        Preco1      = in.readDouble();
+        Preco2      = in.readDouble();
+        bCotar   = in.readByte() != 0;
     }
 
     public static final Creator<MCotacaoItem> CREATOR = new Creator<MCotacaoItem>() {
@@ -64,7 +67,7 @@ public class MCotacaoItem implements Parcelable, Comparable<MCotacaoItem> {
         return Preco1;
     }
 
-    public void setPreco1(Float preco1) {
+    public void setPreco1(Double preco1) {
         Preco1 = preco1;
     }
 
@@ -72,7 +75,7 @@ public class MCotacaoItem implements Parcelable, Comparable<MCotacaoItem> {
         return Preco2;
     }
 
-    public void setPreco2(Float preco2) {
+    public void setPreco2(Double preco2) {
         Preco2 = preco2;
     }
 
@@ -88,6 +91,10 @@ public class MCotacaoItem implements Parcelable, Comparable<MCotacaoItem> {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+
         parcel.writeParcelable(oProduto, i);
+        parcel.writeDouble(Preco1);
+        parcel.writeDouble(Preco2);
+        parcel.writeByte((byte) (bCotar ? 1 : 0));
     }
 }

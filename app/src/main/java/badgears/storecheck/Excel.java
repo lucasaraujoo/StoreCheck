@@ -44,7 +44,7 @@ public class Excel extends DaoMain {
         return cellFormat;
     }
     public void exportToExcel() throws IOException, WriteException{
-        Cursor cursor = db.rawQuery("select Descricao, Id from produtos", null);
+        Cursor cursor = db.rawQuery("select Descricao, Id, Categoria from produtos", null);
         Cursor prodto = db.rawQuery("select * from produtos order by Categoria",null);
         final String fileName = "TodoList.xls";
 
@@ -78,17 +78,19 @@ public class Excel extends DaoMain {
 
                 //sheet.addCell(label); // column and row
                 //sheet.addCell(label2);
-                if (cursor.moveToFirst()) {
-                    do {
-                        String title = cursor.getString(cursor.getColumnIndex("Categoria"));
-                //        String desc = cursor.getString(cursor.getColumnIndex("Categoria"));
+                if (cursor.getCount() > 0) {
+                    if (cursor.moveToFirst()) {
+                        do {
+                            String title = cursor.getString(cursor.getColumnIndex("Categoria"));
+                            //        String desc = cursor.getString(cursor.getColumnIndex("Categoria"));
 
-                        int i = cursor.getPosition() + 1;
-                        MCategoria m = new MCategoria(i,title);
-                        Categorias.add(m);
-                        sheet.addCell(new Label(i, 0, title,getCellFormat(Colour.GREEN))); // Escrevemos as categorias nas colunas
-                       // sheet.addCell(new Label(1, i, desc));
-                    } while (cursor.moveToNext());
+                            int i = cursor.getPosition() + 1;
+                            MCategoria m = new MCategoria(i, title);
+                            Categorias.add(m);
+                            sheet.addCell(new Label(i, 0, title, getCellFormat(Colour.GREEN))); // Escrevemos as categorias nas colunas
+                            // sheet.addCell(new Label(1, i, desc));
+                        } while (cursor.moveToNext());
+                    }
                 }
                 //closing cursor
                 cursor.close();

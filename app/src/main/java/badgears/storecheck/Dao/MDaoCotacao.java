@@ -21,6 +21,35 @@ public class MDaoCotacao extends  DaoMain {
         super(contexto);
     }
 
+    public boolean updatePrecos(ArrayList<MCotacaoItem> listaItens){
+        boolean retorno = false;
+        String updateCotacaoItens = "update produtoscotacao set "+
+                "Preco1 = ?, Preco2 = ? where "+
+                "id = ?";
+
+        SQLiteStatement stmt = null;
+        MCotacaoItem oItem = null;
+        db.beginTransaction();
+        try {
+            stmt = db.compileStatement(updateCotacaoItens);
+            for (int i = 0; i < listaItens.size(); i++) {
+                oItem = listaItens.get(i);
+
+                stmt.bindDouble(1, oItem.getPreco1());
+                stmt.bindDouble(2, oItem.getPreco2());
+                stmt.bindDouble(3, oItem.getId());
+                stmt.execute();
+                stmt.clearBindings();
+            }
+            db.setTransactionSuccessful();
+            retorno = true;
+
+        }finally {
+            db.endTransaction();
+        }
+        return retorno;
+    }
+
     public boolean gravaItensCotacao(MCotacao objCotacao){
         boolean retorno = false;
         String InsertProdutoCotacao = "Insert into produtoscotacao "+

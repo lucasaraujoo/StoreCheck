@@ -2,6 +2,7 @@ package badgears.storecheck;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.SQLException;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import badgears.storecheck.Controladores.ControladorColocarPrecos;
 import badgears.storecheck.Dao.MDaoCotacao;
 import badgears.storecheck.Dao.MDaoProduto;
 import badgears.storecheck.Modelos.MCotacao;
@@ -75,7 +77,7 @@ public class EscolherItensCotar extends AppCompatActivity {
                 return false;
             }
         });
-        PegarProdutos ();
+        PegarProdutos();
     }
 
     private void setCotacaoRecebida(){
@@ -160,6 +162,9 @@ public class EscolherItensCotar extends AppCompatActivity {
                 //salvar itens da cotaçao
 
                 gravarItensDaCotacao();
+                Intent intAddPrecos = new Intent(getBaseContext(), ControladorColocarPrecos.class);
+                intAddPrecos.putExtra("objCotacao", oCotacao);
+                startActivity(intAddPrecos);
 
                 Toast.makeText(getApplicationContext(), "Produtos salvos... \n Faltando gerar relatorio", Toast.LENGTH_SHORT).show();
                 finish();

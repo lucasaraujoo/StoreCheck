@@ -6,7 +6,8 @@ import android.os.Parcelable;
 /**
  * Created by Lucas on 25/09/2016.
  */
-public class MProduto implements Parcelable, Comparable<MProduto> {
+public class
+MProduto implements Parcelable, Comparable<MProduto> {
     protected int id;
     protected String Descricao;
     protected String Categoria;
@@ -20,7 +21,8 @@ public class MProduto implements Parcelable, Comparable<MProduto> {
         Tipo = in.readString();
     }
 
-    public MProduto(String descricao, String categoria, String tipo) {
+    public MProduto(int idPro, String descricao, String categoria, String tipo) {
+        this.id = idPro;
         this.Descricao = descricao;
         this.Categoria = categoria;
         this.Tipo = tipo;

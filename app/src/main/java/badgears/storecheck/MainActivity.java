@@ -84,13 +84,6 @@ public class MainActivity extends AppCompatActivity {
         // Toast.makeText(MainActivity.this, "Criar relatorio", Toast.LENGTH_SHORT).show();
         //  CellBackgroundPatternTest c = new CellBackgroundPatternTest();
 
-        try {
-            t.exportToExcel();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (WriteException e) {
-            e.printStackTrace();
-        }
     }
 
     private void setExtra(){
@@ -131,7 +124,9 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         if(id == R.id.action_relatorios){
-            Toast.makeText(getApplication(), "Relatorios em desenvolvimento...", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, Relatorio.class);
+            startActivity(intent);
+            return true;
         }
 
         return super.onOptionsItemSelected(item);

@@ -163,6 +163,8 @@ public class ControladorCotacao extends AppCompatActivity implements Button.OnCl
         this.oCotacaoEditar.setNome(this.edNomeCotacao.getText().toString());
         this.oCotacaoEditar.setIDCliente(this.oCliente.getId());
 
+
+
     }
 
     private void carregaCliente(){

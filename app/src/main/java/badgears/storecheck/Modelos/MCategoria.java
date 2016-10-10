@@ -8,8 +8,9 @@ import java.util.ArrayList;
 
 public class MCategoria {
     private int Id;
+    private String Cliente;
     private String Nome;
-    private ArrayList<String> SimNao = new ArrayList<String>();
+    private ArrayList<MItensRelatorio> Itens;
 
     public int getId() {
         return Id;
@@ -18,6 +19,7 @@ public class MCategoria {
     public void setId(int id) {
         this.Id = id;
     }
+
     public String getDescricao() {
         return Nome;
     }
@@ -26,18 +28,24 @@ public class MCategoria {
         this.Nome = desc;
     }
 
-    public ArrayList<String> getOpcoes(){
-        return SimNao;
+    public String getCliente() {
+        return Cliente;
     }
 
-    public void setOpcoes(ArrayList<String> opc){
-        this.SimNao = opc;
+    public void setCliente(String cli) {this.Cliente = cli;}
+
+    public ArrayList<MItensRelatorio> getOpcoes(){
+        return Itens;
     }
 
-    public MCategoria(int id,String desc,ArrayList<String> opc){
+    public void setOpcoes(ArrayList<MItensRelatorio> opc){
+        this.Itens = opc;
+    }
+
+    public MCategoria(int id,String desc,ArrayList<MItensRelatorio> itens,String Cliente){
         this.Id = id;
         this.Nome = desc;
-        this.SimNao = opc;
-
+        this.Itens = itens;
+        this.Cliente = Cliente;
     }
 }

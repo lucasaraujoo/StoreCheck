@@ -70,7 +70,7 @@ public class ItemListView extends BaseAdapter {
        // rbSim.setChecked(sim[position]);
         //rbNao.setChecked(nao[position]);
         txtProduto.setText(listaItensCotacao.get(position).getoProduto().getDescricao());
-        rbSim.setChecked( listaItensCotacao.get(position).getbCotar());
+        rbSim.setChecked( listaItensCotacao.get(position).getbCotar() == false);
         rbNao.setChecked( listaItensCotacao.get(position).getbCotar() == false);
 
         rgCotar.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {

@@ -79,12 +79,14 @@ public class ControladorColocarPrecos extends AppCompatActivity {
         for (int i = 0 ; i < oCotacao.getItensCotacao().size(); i++){
             if (oCotacao.getItensCotacao().get(i).getbCotar() ){
                 this.listaProdCotar.add(oCotacao.getItensCotacao().get(i));
+                Toast.makeText(getApplicationContext(), "Id " + oCotacao.getItensCotacao().get(i).getoProduto().getId(), Toast.LENGTH_SHORT).show();
             }
         }
     }
 
     private void updatePrecos(){
         MDaoCotacao oDao = new MDaoCotacao(this);
+
         try{
 
             oDao.updatePrecos(listaProdCotar);

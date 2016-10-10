@@ -19,7 +19,7 @@
         android:textAlignment="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Título do relatório"/>
+        android:text="StoreCheck MOBILE"/>
 
     <ImageView
         android:layout_width="match_parent"

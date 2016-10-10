@@ -49,7 +49,7 @@ public class ControladorCotacao extends AppCompatActivity implements Button.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cotar);
-        //// TODO: 24/09/2016 Criar Dao cotacao e funções para gravação
+
         this.edDataCotacao  =   (EditText)  findViewById(R.id.etData);
         this.edNomeCotacao  =   (EditText)  findViewById(R.id.etNomeCotacao);
         this.edCidade       =   (EditText)  findViewById(R.id.etCidade);

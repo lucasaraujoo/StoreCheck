@@ -15,7 +15,11 @@ public class MCotacao implements Parcelable, Comparable<MCotacao> {
     protected int IDCliente;
     protected Date DataCotacao;
     protected int ID;
+
     protected ArrayList<MCotacaoItem> itensCotacao ;
+    protected int iTotItens;
+    protected int iEmEstoque;
+    protected int iSemEstoque;
 
     public ArrayList<MCotacaoItem> getItensCotacao() {
         return itensCotacao;
@@ -24,7 +28,7 @@ public class MCotacao implements Parcelable, Comparable<MCotacao> {
     public void setItensCotacao(ArrayList<MCotacaoItem> itensCotacao) {
         this.itensCotacao = itensCotacao;
     }
-    //// TODO: 26/09/2016 criar classe dos itens da cotacao e criar objeto aqui
+
 
     protected MCotacao(Parcel in) {
         Nome = in.readString();
@@ -33,6 +37,9 @@ public class MCotacao implements Parcelable, Comparable<MCotacao> {
         this.DataCotacao = tmpDate == -1 ? null : new Date(tmpDate);
         ID = in.readInt();
         itensCotacao = in.readArrayList(MCotacaoItem.class.getClassLoader());
+        iTotItens = in.readInt();
+        iEmEstoque = in.readInt();
+        iSemEstoque = in.readInt();
     }
 
     public static final Creator<MCotacao> CREATOR = new Creator<MCotacao>() {
@@ -79,6 +86,30 @@ public class MCotacao implements Parcelable, Comparable<MCotacao> {
         this.ID = ID;
     }
 
+    public int getiTotItens() {
+        return iTotItens;
+    }
+
+    public void setiTotItens(int iTotItens) {
+        this.iTotItens = iTotItens;
+    }
+
+    public int getiEmEstoque() {
+        return iEmEstoque;
+    }
+
+    public void setiEmEstoque(int iEmEstoque) {
+        this.iEmEstoque = iEmEstoque;
+    }
+
+    public int getiSemEstoque() {
+        return iSemEstoque;
+    }
+
+    public void setiSemEstoque(int iSemEstoque) {
+        this.iSemEstoque = iSemEstoque;
+    }
+
     public MCotacao() {
 
         this.DataCotacao = new Date();
@@ -103,6 +134,9 @@ public class MCotacao implements Parcelable, Comparable<MCotacao> {
         parcel.writeLong(DataCotacao != null ? DataCotacao.getTime() : -1);
         parcel.writeInt(ID);
         parcel.writeList(itensCotacao);
+        parcel.writeInt(iTotItens);
+        parcel.writeInt(iEmEstoque);
+        parcel.writeInt(iSemEstoque);
     }
 }
 

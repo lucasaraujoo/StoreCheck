@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import badgears.storecheck.Modelos.MCotacao;
 import badgears.storecheck.Modelos.MCotacaoItem;
+import badgears.storecheck.Modelos.MProduto;
 
 /**
  * Created by Lucas on 26/09/2016.
@@ -19,6 +20,42 @@ public class MDaoCotacao extends  DaoMain {
 
     public MDaoCotacao(Context contexto) {
         super(contexto);
+    }
+
+    public boolean deletaCotacao (int idCotacao){
+        return  db.delete("cotacao", "Id = "+ idCotacao, null) > 0;
+    }
+
+    public void atualizaTotalizadores (MCotacao objCotacao){
+        boolean retorno = false;
+        String attTotais = "select count(c.id) as TotalItens, "+
+                        "SUM(CASE WHEN pc.Cotar=1 THEN 1 ELSE 0 END) as EmEstoque, "+
+                        "SUM(CASE WHEN pc.Cotar=0 THEN 1 ELSE 0 END) as SemEstoque "+
+                        "from cotacao c "+
+                        "left join produtoscotacao pc on pc.idCotacao = c.Id "+
+                        "where c.Id ="+objCotacao.getID();
+
+        Cursor c = db.rawQuery(attTotais, null);
+        try {
+            if (c.getCount() > 0) {
+                c.moveToFirst();
+                do {
+
+                    objCotacao.setiTotItens(c.getInt(c.getColumnIndex("TotalItens")));
+                    objCotacao.setiEmEstoque(c.getInt(c.getColumnIndex("EmEstoque")));
+                    objCotacao.setiSemEstoque(c.getInt(c.getColumnIndex("SemEstoque")));
+
+
+                }while(c.moveToNext());
+
+            }
+
+        } finally {
+            c.close();
+
+        }
+
+
     }
 
     public boolean updatePrecos(ArrayList<MCotacaoItem> listaItens){
@@ -93,7 +130,7 @@ public class MDaoCotacao extends  DaoMain {
         boolean retorno = false;
         String InsertCliente = "insert into cotacao (Nome ,Data , IDCliente  )"+
                 " values (? ,?, ?)";
-        //// TODO: 26/09/2016 Fazer Update Cotacao
+
         int IDCotacao = objCotacao.getID();
 
         SQLiteStatement stmt = null;
@@ -120,10 +157,55 @@ public class MDaoCotacao extends  DaoMain {
         return retorno;
     }
 
+    public void getItensCotacao(MCotacao oCotacao){
+        MCotacaoItem itemCotacao = null;
+        MProduto oProduto = null;
+        oCotacao.getItensCotacao().clear();
+        String sQuery = "select p.Id as IdProduto, ic.Id as IdItem, p.Descricao, p.Categoria, p.Tipo, "+
+                    "ic.Preco1, ic.Preco2, ic.Cotar "+
+                    "from produtoscotacao ic "+
+                    " left join produtos p on p.Id = ic.Idproduto "+
+                    "where ic.IdCotacao = "+oCotacao.getID();
+        Cursor c = db.rawQuery(sQuery, null);
+        try {
+            if (c.getCount() > 0) {
+                c.moveToFirst();
+                do {
+                    oProduto  = new MProduto(
+                            c.getInt(c.getColumnIndex("IdProduto")),
+                            c.getString(c.getColumnIndex("Descricao")),
+                            c.getString(c.getColumnIndex("Categoria")),
+                            c.getString(c.getColumnIndex("Tipo"))
+                    );
+                    itemCotacao = new MCotacaoItem(oProduto);
+                    itemCotacao.setbCotar(c.getInt(c.getColumnIndex("Cotar")) == 1 );
+                    itemCotacao.setPreco1(c.getDouble(c.getColumnIndex("Preco1")));
+                    itemCotacao.setPreco2(c.getDouble(c.getColumnIndex("Preco2")));
+                    itemCotacao.setId(c.getInt(c.getColumnIndex("IdItem")));
+
+                    oCotacao.getItensCotacao().add(itemCotacao);
+
+
+                }while(c.moveToNext());
+
+            }
+
+        } finally {
+            c.close();
+
+        }
+    }
+
     public ArrayList<MCotacao> getListaCotacao(){
         ArrayList<MCotacao> lista = new ArrayList<MCotacao>();
         MCotacao cotacao = null;
-        String sQuery = "select c.Id, c.Nome, c.IDCliente, c.Data from cotacao c ";
+        String sQuery = "select c.Id, c.Nome, c.IDCliente, c.Data, "+
+                "count(c.id) as TotalItens, "+
+                "SUM(CASE WHEN pc.Cotar=1 THEN 1 ELSE 0 END) as EmEstoque, "+
+                "SUM(CASE WHEN pc.Cotar=0 THEN 1 ELSE 0 END) as SemEstoque "+
+                "from cotacao c "+
+                "left join produtoscotacao pc on pc.idCotacao = c.Id "+
+                "group by c.Id, c.Nome, c.IDCliente, c.Data ";
 
         Cursor c = db.rawQuery(sQuery, null);
         try {
@@ -135,6 +217,9 @@ public class MDaoCotacao extends  DaoMain {
                     cotacao.setNome(c.getString(c.getColumnIndex("Nome")));
                     cotacao.setIDCliente(c.getInt(c.getColumnIndex("IDCliente")));
                     cotacao.setData(new Date( c.getLong(c.getColumnIndex("Data"))));
+                    cotacao.setiTotItens(c.getInt(c.getColumnIndex("TotalItens")));
+                    cotacao.setiEmEstoque(c.getInt(c.getColumnIndex("EmEstoque")));
+                    cotacao.setiSemEstoque(c.getInt(c.getColumnIndex("SemEstoque")));
                     lista.add(cotacao);
                 }while(c.moveToNext());
 

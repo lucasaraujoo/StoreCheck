@@ -30,13 +30,16 @@
         android:layout_margin="@dimen/fab_margin"
         app:menu_color="#4169E1"
         app:menu_open="arc_left"
-        app:menu_scr="@drawable/ic_apagar">
+        app:menu_scr="@android:drawable/ic_input_add">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#000000"
             android:text="PDB"
-            android:elevation="100dp"/>
+            android:elevation="100dp"
+            android:textStyle="normal|bold"
+            android:textSize="14sp"
+            android:background="@android:drawable/editbox_background" />
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab_arc_menu_1"
             android:layout_width="wrap_content"
@@ -56,7 +59,10 @@
             android:layout_height="wrap_content"
             android:textColor="#000000"
             android:text="Biscoitos"
-            android:elevation="100dp"/>
+            android:elevation="100dp"
+            android:textSize="14sp"
+            android:textStyle="normal|bold"
+            android:background="@android:drawable/editbox_background_normal" />
 
     </com.sa90.materialarcmenu.ArcMenu>
 

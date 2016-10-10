@@ -34,6 +34,7 @@ public class EscolherItensCotar extends AppCompatActivity {
     public Button btnSalva;
     public ListView lista;
     ItemListView adapter;
+    private boolean bRecuperando;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +78,10 @@ public class EscolherItensCotar extends AppCompatActivity {
                 return false;
             }
         });
-        PegarProdutos();
+        bRecuperando =  (oCotacao.getItensCotacao().size() > 0);
+
+        if(!bRecuperando)
+            PegarProdutos();
     }
 
     private void setCotacaoRecebida(){
@@ -87,7 +91,7 @@ public class EscolherItensCotar extends AppCompatActivity {
 
     public void SairSemSalvar(){
         AlertDialog alert = new AlertDialog.Builder(this).create();
-        alert.setTitle("Anteção");
+        alert.setTitle("Atenção");
         alert.setMessage("Você iniciou uma cotação e não concluiu, deseja continuar mais tarde?");
         alert.setButton(Dialog.BUTTON_POSITIVE,"Continuar mais tarde",new DialogInterface.OnClickListener(){
 
@@ -102,7 +106,10 @@ public class EscolherItensCotar extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Toast.makeText(getApplicationContext(), "Apagar da base de dados", Toast.LENGTH_SHORT).show();
-                finish();
+                //apagar cotacao na base
+                if (deletarCotacaoNaBase()) {
+                    finish();
+                }
             }
         });
         alert.setButton(Dialog.BUTTON_NEUTRAL,"Cancelar",new DialogInterface.OnClickListener(){
@@ -115,6 +122,30 @@ public class EscolherItensCotar extends AppCompatActivity {
         });
 
         alert.show();
+    }
+
+    private boolean deletarCotacaoNaBase(){
+        MDaoCotacao oDao = new MDaoCotacao(this);
+        boolean retorno = false;
+        try{
+            retorno = oDao.deletaCotacao(this.oCotacao.getID());
+        }catch (Exception e){
+            android.app.AlertDialog dialog = new android.app.AlertDialog.Builder(this)
+                    .setTitle(this.getString(R.string.app_name))
+                    .setMessage("Erro ao deletar cotação na Base de Dados!")
+                    .setCancelable(false)
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            return;
+                        }
+                    }).create();
+
+            dialog.show();
+        }finally{
+            oDao.fechar();
+            oDao = null;
+        }
+        return retorno;
     }
 
     private void removerItensNaoCotaveis(){
@@ -130,6 +161,8 @@ public class EscolherItensCotar extends AppCompatActivity {
         try{
 
             oDao.gravaItensCotacao(oCotacao);
+
+            //atualizar totalizadores no objeto
         }catch (Exception e){
           android.app.AlertDialog dialog = new android.app.AlertDialog.Builder(this)
                   .setTitle(this.getString(R.string.app_name))
@@ -160,8 +193,8 @@ public class EscolherItensCotar extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 //salvar itens da cotaçao
-
-                gravarItensDaCotacao();
+                if (!bRecuperando)
+                    gravarItensDaCotacao();
                 Intent intAddPrecos = new Intent(getBaseContext(), ControladorColocarPrecos.class);
                 intAddPrecos.putExtra("objCotacao", oCotacao);
                 startActivity(intAddPrecos);

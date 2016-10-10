@@ -12,7 +12,8 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="keyboardHidden|orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,9 +21,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".Cotar" />
-        <activity android:name=".Controladores.ControladorColocarPrecos" />
+        <activity android:name=".Controladores.ControladorColocarPrecos" android:windowSoftInputMode="adjustNothing" />
         <activity android:name=".Controladores.ControladorCotacao" />
-        <activity android:name=".EscolherItensCotar" />
+        <activity android:name=".EscolherItensCotar" android:windowSoftInputMode="adjustNothing" />
         <activity android:name=".AjudaActivity"></activity>
     </application>
 

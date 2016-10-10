@@ -1,8 +1,12 @@
 package badgears.storecheck;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -14,6 +18,7 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import badgears.storecheck.Dao.MDaoCotacao;
 import badgears.storecheck.Dao.MDaoProduto;
 import badgears.storecheck.Dao.tskIniciarBD;
 import badgears.storecheck.Modelos.MCotacao;
@@ -29,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private AdapterCotacao adapterCotacao = null;
     private ArrayList<MCotacao> listaDeCotacoes = null;
     private MDaoProduto Produtos;
+    private boolean buscarCotacoes = true ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,11 +75,14 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
-        this.asyncGetListaDeCotacoes();
-       Excel t = new Excel(this);
-       // Toast.makeText(MainActivity.this, "Criar relatorio", Toast.LENGTH_SHORT).show();
-      //  CellBackgroundPatternTest c = new CellBackgroundPatternTest();
+
+        setExtra();
+        if (this.buscarCotacoes) {
+            this.asyncGetListaDeCotacoes();
+        }
+        Excel t = new Excel(this);
+        // Toast.makeText(MainActivity.this, "Criar relatorio", Toast.LENGTH_SHORT).show();
+        //  CellBackgroundPatternTest c = new CellBackgroundPatternTest();
 
         try {
             t.exportToExcel();
@@ -82,6 +91,19 @@ public class MainActivity extends AppCompatActivity {
         } catch (WriteException e) {
             e.printStackTrace();
         }
+    }
+
+    private void setExtra(){
+        if (getIntent().hasExtra("BuscarCotacoes")) {
+            this.buscarCotacoes = getIntent().getExtras().getBoolean("BuscarCotacoes", true);
+        }
+
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        setContentView(R.layout.activity_main);
     }
 
     private void VerificaBD() {
@@ -124,7 +146,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void asyncGetListaDeCotacoes() {
-
+        if (this.listaDeCotacoes != null) {
+            this.listaDeCotacoes.clear();
+        }
+        this.listaDeCotacoes = null;
         new taskGetListaCotacao(this).execute();
 
     }
@@ -132,8 +157,95 @@ public class MainActivity extends AppCompatActivity {
     public void setListaDeCotacoes(ArrayList<MCotacao> oLista){
 
         this.listaDeCotacoes = oLista;
-        this.adapterCotacao = new AdapterCotacao(this, oLista);
-        this.lista.setAdapter(this.adapterCotacao);
-        
+        //this.adapterCotacao = new AdapterCotacao(this, oLista);
+        //this.lista.setAdapter(this.adapterCotacao);
+        //verificar se tem cotações na base
+        if (this.listaDeCotacoes.size() > 0){
+            AlertDialog alert = new AlertDialog.Builder(this).create();
+            alert.setTitle("Atenção");
+            alert.setMessage("Você iniciou uma cotação e não concluiu, deseja continuar agora?");
+            alert.setButton(Dialog.BUTTON_POSITIVE,"Continuar",new DialogInterface.OnClickListener(){
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                    if (carregaItensCotacao(listaDeCotacoes.get(0))){
+                        //se carregou os itens da cotação
+                        //chama a activity de escolher itens
+                        Intent it = new Intent(MainActivity.this, EscolherItensCotar.class);
+                        it.putExtra("objCotacao", listaDeCotacoes.get(0));
+                        startActivity(it);
+                    }else{
+                        //se não carregou itens
+                        //apaga a cotação da base
+                        apagarCotacao(listaDeCotacoes.get(0).getID());
+                        asyncGetListaDeCotacoes();
+                    }
+
+                }
+            });
+            alert.setButton(Dialog.BUTTON_NEGATIVE,"Apagar cotação",new DialogInterface.OnClickListener(){
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Toast.makeText(getApplicationContext(), "Apagar da base de dados", Toast.LENGTH_SHORT).show();
+                    apagarCotacao(listaDeCotacoes.get(0).getID());
+                    asyncGetListaDeCotacoes();
+
+                }
+            });
+            alert.show();
+        }
+
+    }
+
+    private void apagarCotacao(int Id){
+        MDaoCotacao oDao = new MDaoCotacao(this);
+        try{
+
+            oDao.deletaCotacao(Id);
+
+        }catch (Exception e){
+            android.app.AlertDialog dialog = new android.app.AlertDialog.Builder(this)
+                    .setTitle(this.getString(R.string.app_name))
+                    .setMessage("Erro ao apagar cotacao!")
+                    .setCancelable(false)
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            return;
+                        }
+                    }).create();
+
+            dialog.show();
+        }finally{
+            oDao.fechar();
+            oDao = null;
+        }
+    }
+
+    private boolean carregaItensCotacao(MCotacao oCotacao){
+        boolean retorno = false;
+        MDaoCotacao oDao = new MDaoCotacao(this);
+        try{
+
+            oDao.getItensCotacao(oCotacao);
+            retorno = true;
+        }catch (Exception e){
+            android.app.AlertDialog dialog = new android.app.AlertDialog.Builder(this)
+                    .setTitle(this.getString(R.string.app_name))
+                    .setMessage("Erro ao carregar itens da cotacao!")
+                    .setCancelable(false)
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            return;
+                        }
+                    }).create();
+
+            dialog.show();
+        }finally{
+            oDao.fechar();
+            oDao = null;
+        }
+        return retorno;
     }
 }

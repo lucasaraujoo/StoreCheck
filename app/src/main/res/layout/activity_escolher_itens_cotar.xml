@@ -10,32 +10,42 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="badgears.storecheck.EscolherItensCotar">
 
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="400dp"
-        android:id="@+id/listaProdutos"
-        android:visibility="visible"
-        android:focusable="false"></ListView>
     <LinearLayout
-        android:id="@+id/linearLayout1"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="#DDDDDD"
-        android:padding="@dimen/activity_vertical_margin"
-        android:layout_alignParentBottom="true" >
-        <Button
-            android:id="@+id/btCancelar"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+        android:layout_height="match_parent">
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/listaProdutos"
+            android:visibility="visible"
+            android:focusable="false"
             android:layout_weight="1"
-            android:text="Cancelar" />
-        <Button
-            android:id="@+id/btSalvar"
-            android:layout_width="0dp"
+            ></ListView>
+
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Concluir" />
+            android:orientation="horizontal"
+            android:background="#DDDDDD"
+            android:padding="5dp"
+            android:layout_alignParentBottom="true"
+          >
+            <Button
+                android:id="@+id/btCancelar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Cancelar" />
+            <Button
+                android:id="@+id/btSalvar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Concluir" />
+        </LinearLayout>
     </LinearLayout>
 
 </RelativeLayout>

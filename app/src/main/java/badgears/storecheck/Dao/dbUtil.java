@@ -43,7 +43,7 @@ public class dbUtil {
                     "Preco1     REAL NOT NULL,"+
                     "Preco2     REAL NOT NULL,"+
                     "Cotar      Integer NOT NULL,"+
-                    "FOREIGN KEY (IdCotacao) REFERENCES cotacao(Id));"
+                    "FOREIGN KEY (IdCotacao) REFERENCES cotacao(Id) ON DELETE CASCADE );"
             ,
 
 

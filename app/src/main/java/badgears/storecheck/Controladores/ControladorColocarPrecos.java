@@ -34,8 +34,8 @@ public class ControladorColocarPrecos extends AppCompatActivity {
         setContentView(R.layout.activity_colocar_precos);
 
         lista = (ListView) findViewById(R.id.ListaProdutosPrecos);
-        btnSalvar = (Button) findViewById(R.id.btSalvar);
-        btnCancelar = (Button) findViewById(R.id.btCancelar);
+        btnSalvar = (Button) findViewById(R.id.btnSalvarVlr);
+        btnCancelar = (Button) findViewById(R.id.btnCancelar);
 
         btnSalvar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,6 +43,7 @@ public class ControladorColocarPrecos extends AppCompatActivity {
                 updatePrecos();
                 Toast.makeText(getApplicationContext(), "Produtos salvos", Toast.LENGTH_SHORT).show();
                 Intent secondActivity = new Intent(ControladorColocarPrecos.this.getApplicationContext(), MainActivity.class);
+                secondActivity.putExtra("BuscarCotacoes", false);
                 startActivity(secondActivity);
                 finish();
             }
@@ -51,6 +52,7 @@ public class ControladorColocarPrecos extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             Intent secondActivity = new Intent(ControladorColocarPrecos.this.getApplicationContext(), MainActivity.class);
+            secondActivity.putExtra("BuscarCotacoes", false);
             startActivity(secondActivity);
             finish();
         }
@@ -86,6 +88,7 @@ public class ControladorColocarPrecos extends AppCompatActivity {
         try{
 
             oDao.updatePrecos(listaProdCotar);
+            oDao.atualizaTotalizadores(oCotacao);
         }catch (Exception e){
             android.app.AlertDialog dialog = new android.app.AlertDialog.Builder(this)
                     .setTitle(this.getString(R.string.app_name))

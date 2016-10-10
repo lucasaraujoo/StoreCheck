@@ -22,7 +22,7 @@ public class MDaoCliente extends DaoMain{
         boolean retorno = false;
         String InsertCliente = "insert into clientes (Nome ,Datacad ,CPFCNPJ , Telefone, Cidade  )"+
                                 " values (? , ? ,? ,?, ?)";
-        //// TODO: 26/09/2016 Fazer Update Cliente 
+
         int IDCliente = objCliente.getId();
 
         SQLiteStatement stmt = null;

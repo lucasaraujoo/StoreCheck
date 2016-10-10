@@ -71,9 +71,9 @@ public class AdapterCotacao extends BaseAdapter {
         if (cotacao != null) {
             viewHolder.titulo.setText(cotacao.getNome());
             viewHolder.data.setText("Data "+new SimpleDateFormat("dd/MM/yyyy").format( cotacao.getData()));
-            viewHolder.qtdItens.setText("Total de itens verificados: 20");
-            viewHolder.qtdItensEmEst.setText("Itens em Estoque: 15");
-            viewHolder.qtdItensSemEst.setText("Itens sem Estoque: 5"); //// TODO: 26/09/2016 Inserir quantidades na classe cotacao
+            viewHolder.qtdItens.setText("Total de itens verificados: "+cotacao.getiTotItens());
+            viewHolder.qtdItensEmEst.setText("Itens em Estoque: "+cotacao.getiEmEstoque());
+            viewHolder.qtdItensSemEst.setText("Itens sem Estoque: "+cotacao.getiSemEstoque());
         }
 
         return view;

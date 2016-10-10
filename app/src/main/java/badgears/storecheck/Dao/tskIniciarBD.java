@@ -31,9 +31,11 @@ public class tskIniciarBD extends AsyncTask<Void, Integer, Void> {
     protected Void doInBackground(Void... params) {
 
         dbUtil bdUtil = new dbUtil(this.contexto);
+        MDaoProduto oDPro = new MDaoProduto(this.contexto);
         try {
             bdUtil.verificaBD();
             //Inserir criações aqui
+            oDPro.criaProdutsSeNaoExistir();
 
         } catch (Exception e) {
             this.eErro = e;
@@ -41,7 +43,7 @@ public class tskIniciarBD extends AsyncTask<Void, Integer, Void> {
         } finally {
             progresso.dismiss();
             bdUtil = null;
-
+            oDPro = null;
         }
 
         return null;

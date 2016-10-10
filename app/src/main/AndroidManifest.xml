@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="badgears.storecheck">
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:debuggable="true"
@@ -23,7 +25,8 @@
         <activity android:name=".Controladores.ControladorColocarPrecos" />
         <activity android:name=".Controladores.ControladorCotacao" />
         <activity android:name=".EscolherItensCotar" />
-        <activity android:name=".AjudaActivity"></activity>
+        <activity android:name=".AjudaActivity" />
+        <activity android:name=".Relatorio"></activity>
     </application>
 
 </manifest>

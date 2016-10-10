@@ -28,6 +28,7 @@ public class EscolherItensCotar extends AppCompatActivity {
 
     public badgears.storecheck.Dao.MDaoProduto Produtos = null;
     public ArrayList<MProduto> listaproduto = null;
+    public MProduto produto;
     private MCotacao oCotacao = null;
     String[] produtos = new String[]{};
     public Button btnCancelar;
@@ -127,6 +128,7 @@ public class EscolherItensCotar extends AppCompatActivity {
 
     private void gravarItensDaCotacao(){
         MDaoCotacao oDao = new MDaoCotacao(this);
+
         try{
 
             oDao.gravaItensCotacao(oCotacao);
@@ -185,6 +187,7 @@ public class EscolherItensCotar extends AppCompatActivity {
 
     public void PegarProdutos (){
         MDaoProduto oDao = new MDaoProduto(this);
+        produtos = new String[]{};
 
 
         try {

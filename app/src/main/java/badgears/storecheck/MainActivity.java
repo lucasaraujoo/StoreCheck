@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
         if (this.listaDeCotacoes.size() > 0){
             AlertDialog alert = new AlertDialog.Builder(this).create();
             alert.setTitle("Atenção");
-            alert.setMessage("Você iniciou uma cotação e não concluiu, deseja continuar agora?");
+            alert.setMessage("Você iniciou um Store Check e não concluiu, deseja continuar agora?");
             alert.setButton(Dialog.BUTTON_POSITIVE,"Continuar",new DialogInterface.OnClickListener(){
 
                 @Override
@@ -179,11 +179,11 @@ public class MainActivity extends AppCompatActivity {
 
                 }
             });
-            alert.setButton(Dialog.BUTTON_NEGATIVE,"Apagar cotação",new DialogInterface.OnClickListener(){
+            alert.setButton(Dialog.BUTTON_NEGATIVE,"Apagar Store Check",new DialogInterface.OnClickListener(){
 
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    Toast.makeText(getApplicationContext(), "Apagar da base de dados", Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(getApplicationContext(), "Apagar da base de dados", Toast.LENGTH_SHORT).show();
                     apagarCotacao(listaDeCotacoes.get(0).getID());
                     asyncGetListaDeCotacoes();
 
@@ -203,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
         }catch (Exception e){
             android.app.AlertDialog dialog = new android.app.AlertDialog.Builder(this)
                     .setTitle(this.getString(R.string.app_name))
-                    .setMessage("Erro ao apagar cotacao!")
+                    .setMessage("Erro ao apagar Store Check!")
                     .setCancelable(false)
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
@@ -228,7 +228,7 @@ public class MainActivity extends AppCompatActivity {
         }catch (Exception e){
             android.app.AlertDialog dialog = new android.app.AlertDialog.Builder(this)
                     .setTitle(this.getString(R.string.app_name))
-                    .setMessage("Erro ao carregar itens da cotacao!")
+                    .setMessage("Erro ao carregar itens do Store Check!")
                     .setCancelable(false)
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {

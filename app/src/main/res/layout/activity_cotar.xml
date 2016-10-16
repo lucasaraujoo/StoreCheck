@@ -20,6 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/edCliente"
+        android:maxLines="1"
         android:layout_below="@+id/textViewcCli"/>
 
     <TextView
@@ -32,18 +33,21 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:inputType="phone"
         android:id="@+id/edTelefone"
         android:layout_below="@+id/textViewcTel"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Título do relatório: "
+        android:text="Título do storeCheck: "
         android:id="@+id/textView2"
         android:layout_below="@+id/edTelefone" />
     <EditText
         android:id="@+id/etNomeCotacao"
         android:layout_width="match_parent"
+        android:maxLines="1"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView2"/>
     <TextView
@@ -56,6 +60,7 @@
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:id="@+id/etCidade"
+        android:maxLines="1"
         android:layout_below="@+id/textView3"/>
     <TextView
         android:layout_width="wrap_content"
@@ -70,6 +75,8 @@
     <EditText
         android:id="@+id/etData"
         android:layout_width="120dp"
+        android:maxLines="1"
+        android:inputType="date"
         android:layout_height="wrap_content"
         android:text="21/09/2016"
         android:layout_toRightOf="@+id/etCidade"
@@ -97,6 +104,18 @@
         android:layout_alignParentBottom="true"
         android:text="Salvar"
         />
+    <TextView
+        android:id="@+id/tvobs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Observação:"
+        android:layout_below="@+id/btnPegarData"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:maxLines="5"
+        android:id="@+id/edObs"
+        android:layout_below="@+id/tvobs"/>
 
 
 

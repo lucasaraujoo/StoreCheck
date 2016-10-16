@@ -98,7 +98,7 @@ public class EscolherItensCotar extends AppCompatActivity {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getApplicationContext(), "Deixar na base para continuar depois", Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(getApplicationContext(), "Deixar na base para continuar depois", Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
@@ -106,7 +106,7 @@ public class EscolherItensCotar extends AppCompatActivity {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getApplicationContext(), "Apagar da base de dados", Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(getApplicationContext(), "Apagar da base de dados", Toast.LENGTH_SHORT).show();
                 //apagar cotacao na base
                 if (deletarCotacaoNaBase()) {
                     finish();
@@ -117,7 +117,7 @@ public class EscolherItensCotar extends AppCompatActivity {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getApplicationContext(), "Não fazer nada", Toast.LENGTH_SHORT).show();
+            //    Toast.makeText(getApplicationContext(), "Não fazer nada", Toast.LENGTH_SHORT).show();
                 //finish();
             }
         });
@@ -201,7 +201,7 @@ public class EscolherItensCotar extends AppCompatActivity {
                 intAddPrecos.putExtra("objCotacao", oCotacao);
                 startActivity(intAddPrecos);
 
-                Toast.makeText(getApplicationContext(), "Produtos salvos... \n Faltando gerar relatorio", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getApplicationContext(), "Produtos salvos... \n Faltando gerar relatorio", Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
@@ -209,7 +209,7 @@ public class EscolherItensCotar extends AppCompatActivity {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getApplicationContext(), "Continuando cotação...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Continuando Store Check...", Toast.LENGTH_SHORT).show();
 
             }
         });

@@ -7,6 +7,7 @@ import java.util.ArrayList;
  */
 
 public class MCategoria {
+    private static MCategoria mCategoria;
     private int Id;
     private String Cliente;
     private String Nome;
@@ -40,6 +41,10 @@ public class MCategoria {
 
     public void setOpcoes(ArrayList<MItensRelatorio> opc){
         this.Itens = opc;
+    }
+
+    public static long getObjectSize(Object o) {
+        return mCategoria.getObjectSize(o);
     }
 
     public MCategoria(int id,String desc,ArrayList<MItensRelatorio> itens,String Cliente){

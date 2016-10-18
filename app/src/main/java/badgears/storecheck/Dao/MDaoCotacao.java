@@ -128,8 +128,8 @@ public class MDaoCotacao extends  DaoMain {
     public boolean gravaCotacao(MCotacao objCotacao){
 
         boolean retorno = false;
-        String InsertCliente = "insert into cotacao (Nome ,Data , IDCliente  )"+
-                " values (? ,?, ?)";
+        String InsertCliente = "insert into cotacao (Nome, Obs,Data , IDCliente  )"+
+                " values (? ,?, ?, ?)";
 
         int IDCotacao = objCotacao.getID();
 
@@ -139,8 +139,9 @@ public class MDaoCotacao extends  DaoMain {
         try{
             stmt = db.compileStatement(InsertCliente);
             stmt.bindString(1, objCotacao.getNome());
-            stmt.bindString(2, new SimpleDateFormat("dd/MM/yyyy").format( objCotacao.getData()));
-            stmt.bindLong(3, objCotacao.getIDCliente());
+            stmt.bindString(2,objCotacao.getObs());
+            stmt.bindString(3, new SimpleDateFormat("dd/MM/yyyy").format( objCotacao.getData()));
+            stmt.bindLong(4, objCotacao.getIDCliente());
 
 
             IDCotacao = (int) stmt.executeInsert();

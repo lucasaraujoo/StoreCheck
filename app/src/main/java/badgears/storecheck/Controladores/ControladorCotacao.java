@@ -33,6 +33,7 @@ public class ControladorCotacao extends AppCompatActivity implements Button.OnCl
     private MCliente oCliente       = null;
 
     private EditText edNomeCotacao ;
+    private EditText edObsCotacao ;
     private EditText edDataCotacao;
     private EditText edNomeCliente;
     private EditText edCidade;
@@ -52,6 +53,7 @@ public class ControladorCotacao extends AppCompatActivity implements Button.OnCl
 
         this.edDataCotacao  =   (EditText)  findViewById(R.id.etData);
         this.edNomeCotacao  =   (EditText)  findViewById(R.id.etNomeCotacao);
+        this.edObsCotacao  =   (EditText)  findViewById(R.id.edObs);
         this.edCidade       =   (EditText)  findViewById(R.id.etCidade);
         this.edNomeCliente  =   (EditText)  findViewById(R.id.edCliente);
         this.edTelefone     =   (EditText)  findViewById(R.id.edTelefone);
@@ -160,6 +162,7 @@ public class ControladorCotacao extends AppCompatActivity implements Button.OnCl
 
     private void atualizaObjetoCotacao() throws ParseException {
         this.oCotacaoEditar.setData(new SimpleDateFormat("dd/MM/yyyy").parse(this.edDataCotacao.getText().toString()));
+        this.oCotacaoEditar.setObs(this.edObsCotacao.getText().toString());
         this.oCotacaoEditar.setNome(this.edNomeCotacao.getText().toString());
         this.oCotacaoEditar.setIDCliente(this.oCliente.getId());
 

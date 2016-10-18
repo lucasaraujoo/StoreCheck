@@ -51,7 +51,7 @@ public class ItemListView extends BaseAdapter {
 
         // Declare Variables
         final RadioButton rbSim;
-        RadioButton rbNao;
+        final RadioButton rbNao;
         final RadioGroup rgCotar;
         TextView txtProduto;
 

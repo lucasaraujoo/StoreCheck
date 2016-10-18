@@ -12,6 +12,7 @@ import java.util.Date;
  */
 public class MCotacao implements Parcelable, Comparable<MCotacao> {
     protected String Nome;
+    protected String Obs;
     protected int IDCliente;
     protected Date DataCotacao;
     protected int ID;
@@ -32,6 +33,7 @@ public class MCotacao implements Parcelable, Comparable<MCotacao> {
 
     protected MCotacao(Parcel in) {
         Nome = in.readString();
+        Obs = in.readString();
         IDCliente = in.readInt();
         long tmpDate = in.readLong();
         this.DataCotacao = tmpDate == -1 ? null : new Date(tmpDate);
@@ -60,6 +62,14 @@ public class MCotacao implements Parcelable, Comparable<MCotacao> {
 
     public void setNome(String nome) {
         Nome = nome;
+    }
+
+    public String getObs() {
+        return Obs;
+    }
+
+    public void setObs(String obs) {
+        Obs = obs;
     }
 
     public int getIDCliente() {
@@ -114,6 +124,7 @@ public class MCotacao implements Parcelable, Comparable<MCotacao> {
 
         this.DataCotacao = new Date();
         this.itensCotacao = new ArrayList<MCotacaoItem>();
+
     }
 
 
@@ -130,6 +141,7 @@ public class MCotacao implements Parcelable, Comparable<MCotacao> {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(Nome);
+        parcel.writeString(Obs);
         parcel.writeInt(IDCliente);
         parcel.writeLong(DataCotacao != null ? DataCotacao.getTime() : -1);
         parcel.writeInt(ID);

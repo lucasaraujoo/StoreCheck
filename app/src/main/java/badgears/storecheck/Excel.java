@@ -13,6 +13,7 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Locale;
 
 import badgears.storecheck.Dao.DaoMain;
@@ -54,14 +55,15 @@ public class Excel extends DaoMain {
         super(contexto);
         ctx = contexto;
     }
-    private static WritableCellFormat getCellFormat(Colour colour) throws WriteException {
-        WritableFont cellFont = new WritableFont(WritableFont.TIMES, 16);
+    private static WritableCellFormat getCellFormat(Colour colour,Colour colourFont, int FontSize) throws WriteException {
+        WritableFont cellFont = new WritableFont(WritableFont.TIMES, FontSize);
         WritableCellFormat cellFormat = new WritableCellFormat(cellFont);
+        cellFont.setColour(colourFont);
         cellFormat.setBackground(colour);
         return cellFormat;
     }
 
-    public void exportToExcel() throws IOException, WriteException{
+    public void exportToExcel(String datarelatorio) throws IOException, WriteException{
         Cursor cursor = db.rawQuery("select Descricao, Id from produtos order by Descricao", null);
         //Query pra pegar  resto
         Cursor prodto = db.rawQuery("select p.*, (select c.Nome from cotacao c  where c.Id=p.IdCotacao) as Nome,  " +
@@ -74,7 +76,7 @@ public class Excel extends DaoMain {
          Cursor prodto = db.rawQuery("select * from produtoscotacao p INNER JOIN cotacao c on " +
                 " c.Id = p.IdCotacao  where c.Nome='Testar' order by p.Idproduto",null);
          */
-        final String fileName = "TodoList.xls";
+        final String fileName = "StoreCheck_" + datarelatorio + ".xls";
 
 
         //Saving file in external storage
@@ -103,6 +105,7 @@ public class Excel extends DaoMain {
 
 
             try {
+                sheet.addCell(new Label(0, 0, "Clientes: ",getCellFormat(Colour.DARK_BLUE,Colour.WHITE,17)));
 
                 //sheet.addCell(label); // column and row
                 //sheet.addCell(label2);
@@ -113,8 +116,8 @@ public class Excel extends DaoMain {
 
                         int i = cursor.getPosition() + 1;
                        // Opc.add("Sim");
-
-                        sheet.addCell(new Label(i, 0, title,getCellFormat(Colour.AQUA))); // Escrevemos as categorias nas colunas
+                        sheet.setColumnView(i,25);
+                        sheet.addCell(new Label(i, 0, title,getCellFormat(Colour.DARK_BLUE,Colour.WHITE,17))); // Escrevemos as categorias nas colunas
                        // sheet.addCell(new Label(1, i, desc));
                     } while (cursor.moveToNext());
                 }
@@ -153,33 +156,35 @@ public class Excel extends DaoMain {
                             for(int z=0;z<ProdutoRelatorio.getOpcoes().get(0).getOpcoes().size();z++){
                                 if(ProdutoRelatorio.getId() == Integer.valueOf(IdCotacao)){
                                     if(ProdutoRelatorio.getOpcoes().get(0).getOpcoes().get(z).equals("1")) {
-                                        sheet.addCell(new Label(z + 1, Linha, ProdutoRelatorio.getOpcoes().get(0).getOpcoes().get(z), getCellFormat(Colour.GREEN)));
+                                        //                                   ProdutoRelatorio.getOpcoes().get(0).getOpcoes().get(z)
+                                        sheet.addCell(new Label(z + 1, Linha,"Sim", getCellFormat(Colour.GREEN,Colour.WHITE,10)));
                                         TotalSim++;
                                     }
                                     else{
                                         TotalNao++;
-                                        sheet.addCell(new Label(z + 1, Linha, ProdutoRelatorio.getOpcoes().get(0).getOpcoes().get(z), getCellFormat(Colour.RED)));
+                                        sheet.addCell(new Label(z + 1, Linha, "Não", getCellFormat(Colour.RED,Colour.WHITE,10)));
                                     }
-                                    sheet.addCell(new Label(0, Linha, ProdutoRelatorio.getCliente()));
-                                    sheet.addCell(new Label(0, QuantidadeCliente+2, "Total clientes visitados: "));
-                                    sheet.addCell(new Label(0, QuantidadeCliente+3, "Total clientes não atendido com os produtos: "));
-                                    sheet.addCell(new Label(0, QuantidadeCliente+4, "% clientes sem os produtos: "));
-                                    sheet.addCell(new Label(0, QuantidadeCliente+5, "Total clientes atendido com os produtos: "));
-                                    sheet.addCell(new Label(0, QuantidadeCliente+6, "% clientes com os produtos: "));
+                                    sheet.setColumnView(0,35);
+                                    sheet.addCell(new Label(0, Linha, ProdutoRelatorio.getCliente(),getCellFormat(Colour.BLUE_GREY,Colour.WHITE,10)));
+                                    sheet.addCell(new Label(0, QuantidadeCliente+2, "Total clientes visitados: ",getCellFormat(Colour.ICE_BLUE,Colour.WHITE,12)));
+                                    sheet.addCell(new Label(0, QuantidadeCliente+3, "Total clientes não atendido com os produtos: ",getCellFormat(Colour.ICE_BLUE,Colour.WHITE,12)));
+                                    sheet.addCell(new Label(0, QuantidadeCliente+4, "% clientes sem os produtos: ",getCellFormat(Colour.ICE_BLUE,Colour.WHITE,12)));
+                                    sheet.addCell(new Label(0, QuantidadeCliente+5, "Total clientes atendido com os produtos: ",getCellFormat(Colour.ICE_BLUE,Colour.WHITE,12)));
+                                    sheet.addCell(new Label(0, QuantidadeCliente+6, "% clientes com os produtos: ",getCellFormat(Colour.ICE_BLUE,Colour.WHITE,12)));
 ///////////////////////////////////////Desenho os resultados/////////////////////////////////////////////////////////////////
-                                    sheet.addCell(new Label(z+1, QuantidadeCliente+2, "" + QuantidadeCliente));
-                                    sheet.addCell(new Label(z+1, QuantidadeCliente+3, "" + ProdutoRelatorio.getOpcoes().get(0).getQuantidadesNao().get(z)));
+                                    sheet.addCell(new Label(z+1, QuantidadeCliente+2, "" + QuantidadeCliente,getCellFormat(Colour.ICE_BLUE,Colour.WHITE,12)));
+                                    sheet.addCell(new Label(z+1, QuantidadeCliente+3, "" + ProdutoRelatorio.getOpcoes().get(0).getQuantidadesNao().get(z),getCellFormat(Colour.ICE_BLUE,Colour.WHITE,12)));
                                     DecimalFormat formatar = new DecimalFormat("#.##");
                                     DecimalFormatSymbols dfs = new DecimalFormatSymbols();
                                     dfs.setDecimalSeparator('.');
                                     formatar.setDecimalFormatSymbols(dfs);
                                     double teste = Double.valueOf(ProdutoRelatorio.getOpcoes().get(0).getQuantidadesNao().get(z));
                                     double Calcular = Double.valueOf(formatar.format(teste / QuantidadeCliente));
-                                    sheet.addCell(new Label(z+1, QuantidadeCliente+4, String.valueOf(Calcular) + "%"));
-                                    sheet.addCell(new Label(z+1, QuantidadeCliente+5, "" + ProdutoRelatorio.getOpcoes().get(0).getQuantidadesSim().get(z)));
+                                    sheet.addCell(new Label(z+1, QuantidadeCliente+4, String.valueOf(Calcular) + "%",getCellFormat(Colour.ICE_BLUE,Colour.WHITE,12)));
+                                    sheet.addCell(new Label(z+1, QuantidadeCliente+5, "" + ProdutoRelatorio.getOpcoes().get(0).getQuantidadesSim().get(z),getCellFormat(Colour.ICE_BLUE,Colour.WHITE,12)));
                                     teste = Double.valueOf(ProdutoRelatorio.getOpcoes().get(0).getQuantidadesSim().get(z));
                                     Calcular = Double.valueOf(formatar.format(teste / QuantidadeCliente));
-                                    sheet.addCell(new Label(z+1, QuantidadeCliente+6, String.valueOf(Calcular) + "%"));
+                                    sheet.addCell(new Label(z+1, QuantidadeCliente+6, String.valueOf(Calcular) + "%",getCellFormat(Colour.ICE_BLUE,Colour.WHITE,12)));
                                 }
 
                             }

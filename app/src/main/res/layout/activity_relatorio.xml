@@ -20,16 +20,19 @@
         android:id="@+id/etDataRelatorio"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:inputType="date"
         android:layout_below="@+id/textview1"/>
     <RadioButton
         android:id="@+id/rbOpcaoRelatorio1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:enabled="false"
         android:layout_below="@+id/etDataRelatorio"
         android:text="Opção 1"/>
     <RadioButton
         android:id="@+id/rbOpcaoRelatorio2"
         android:layout_width="wrap_content"
+        android:enabled="false"
         android:layout_height="wrap_content"
         android:layout_below="@+id/etDataRelatorio"
         android:layout_toRightOf="@+id/rbOpcaoRelatorio1"
@@ -37,6 +40,7 @@
     <RadioButton
         android:id="@+id/rbOpcaoRelatorio3"
         android:layout_width="wrap_content"
+        android:enabled="false"
         android:layout_height="wrap_content"
         android:layout_below="@+id/etDataRelatorio"
         android:layout_toRightOf="@+id/rbOpcaoRelatorio2"
@@ -45,9 +49,10 @@
         android:id="@+id/rbOpcaoRelatorio4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:enabled="false"
         android:layout_below="@+id/etDataRelatorio"
         android:layout_toRightOf="@+id/rbOpcaoRelatorio3"
-        android:text="Opção 4"/>
+        android:text="Opção4"/>
     <Button
         android:id="@+id/btnGerarRelatorio"
         android:layout_width="match_parent"

@@ -26,14 +26,14 @@
            android:layout_height="wrap_content"
            android:textStyle="italic"
            android:layout_below="@+id/txtajuda"
-           android:text="Colocar topicos de ajuda"/>
+           android:text="Para abrir o relatorio no seu dispositivo baixe um aplicativo para ler arquivos do excel, de preferencia o WPS Office."/>
     <TextView
         android:id="@+id/txt2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textStyle="italic"
         android:layout_below="@+id/txt1"
-        android:text="Colocar topicos de ajuda"/>
+        android:text="Para poder enviar e-mail você precisa de um app de e-mail, exemplo: Gmail."/>
     <TextView
         android:id="@+id/txt3"
         android:layout_width="wrap_content"

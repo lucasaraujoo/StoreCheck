@@ -22,6 +22,7 @@ public class dbUtil {
             "CREATE TABLE cotacao ("+
                     "Id INTEGER PRIMARY KEY AUTOINCREMENT,"+
                     "Nome       TEXT,"+
+                    "Obs        TEXT," +
                     "Data       DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,"+
                     "IDCliente  INTEGER NOT NULL,"+
                     "FOREIGN KEY (IDCliente) REFERENCES clientes(Id));"

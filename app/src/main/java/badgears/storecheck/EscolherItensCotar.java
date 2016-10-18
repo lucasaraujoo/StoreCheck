@@ -90,6 +90,13 @@ public class EscolherItensCotar extends AppCompatActivity {
 
     }
 
+    public boolean VerificarItens(){
+        boolean retorno = false;
+
+
+        return retorno;
+    }
+
     public void SairSemSalvar(){
         AlertDialog alert = new AlertDialog.Builder(this).create();
         alert.setTitle("Atenção");

@@ -9,7 +9,7 @@ import android.os.Environment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v4.app.DialogFragment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,13 +17,18 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
+import badgears.storecheck.Controladores.DatePickerFragment;
 import jxl.write.WriteException;
 
 public class Relatorio extends AppCompatActivity {
     public Button btnGerarRelatorio;
     public Button btnVoltar;
     public EditText etDataRelatorio;
+    public Button btnPegarData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,23 +38,27 @@ public class Relatorio extends AppCompatActivity {
         btnGerarRelatorio = (Button) findViewById(R.id.btnGerarRelatorio);
         btnVoltar = (Button) findViewById(R.id.btnVoltarRelatorio);
         etDataRelatorio = (EditText) findViewById(R.id.etDataRelatorio);
+        btnPegarData = (Button)findViewById(R.id.btnData);
+
 
         btnGerarRelatorio.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
                 Excel t = new Excel(Relatorio.this);
-                try {
-                    t.exportToExcel(etDataRelatorio.getText().toString());
-                   // Toast.makeText(getApplicationContext(), "Relatorio gerado!", Toast.LENGTH_SHORT).show();
-
-                    Relatorio();
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (WriteException e) {
-                    e.printStackTrace();
+                if (VerificarData(etDataRelatorio.getText().toString())){
+                    try {
+                        t.exportToExcel(etDataRelatorio.getText().toString());
+                        Relatorio();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (WriteException e) {
+                        e.printStackTrace();
+                    }
+            }else{
+                    Toast.makeText(getApplicationContext(), "Data invalida!", Toast.LENGTH_SHORT).show();
                 }
+
             }
         });
 
@@ -59,11 +68,46 @@ public class Relatorio extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(Relatorio.this, MainActivity.class);
                 startActivity(intent);
+                finish();
+
+            }
+        });
+
+        btnPegarData.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+                    public void onClick(View view){
+                showDatePickerDialog(view);
 
             }
         });
 
     }
+    public void showDatePickerDialog(View v) {
+        DialogFragment newFragment = new DatePickerFragment();
+        newFragment.show(getSupportFragmentManager(), "datePicker");
+    }
+
+
+    public static boolean VerificarData(String data)
+    {
+        if(data!="" || data!=null) {
+            final String DATE_FORMAT = "dd/MM/yyyy";
+            try {
+                DateFormat df = new SimpleDateFormat(DATE_FORMAT);
+                df.setLenient(false);
+                df.parse(data);
+                return true;
+            } catch (ParseException e) {
+                return false;
+            }
+        }
+        else{
+            return false;
+        }
+    }
+
+
     private void LerAquivo(String filename){
         //File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() +"/"+ filename);
         File sdCard = Environment.getExternalStorageDirectory();
@@ -93,7 +137,7 @@ public class Relatorio extends AppCompatActivity {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                LerAquivo("StoreCheck_" + etDataRelatorio.getText().toString() + ".xls");
+                LerAquivo("StoreCheck.xls");
             }
         });
         alert.setButton(Dialog.BUTTON_NEGATIVE,"Enviar por e-mail",new DialogInterface.OnClickListener(){

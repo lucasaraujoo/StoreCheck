@@ -68,15 +68,18 @@ public class Excel extends DaoMain {
         //Query pra pegar  resto
         Cursor prodto = db.rawQuery("select p.*, (select c.Nome from cotacao c  where c.Id=p.IdCotacao) as Nome,  " +
                 "(select c.Id from cotacao c  where c.Id=p.IdCotacao )  as IdCotaMaster, " +
-                "(select count(*) from cotacao cc) as QuantidadeC " +
-                "from produtoscotacao p order by (select Descricao from produtos pp where pp.Id=p.Idproduto )"
+                "(select count(*) from cotacao cc where cc.Data='" + datarelatorio + "') as QuantidadeC, cota.Nome as NomeCliente " +
+                "from produtoscotacao p inner join cotacao cota on cota.Id=p.IDCotacao " +
+                "inner join clientes cc on cc.Id=cota.IDCliente " +
+                "where  p.IdCotacao in (select co.Id from cotacao co  where co.Data='" + datarelatorio +"')" +
+                " order by (select Descricao from produtos pp where pp.Id=p.Idproduto )"
                 ,null);
 
         /*
          Cursor prodto = db.rawQuery("select * from produtoscotacao p INNER JOIN cotacao c on " +
                 " c.Id = p.IdCotacao  where c.Nome='Testar' order by p.Idproduto",null);
          */
-        final String fileName = "StoreCheck_" + datarelatorio + ".xls";
+        final String fileName = "StoreCheck.xls";
 
 
         //Saving file in external storage
@@ -134,7 +137,7 @@ public class Excel extends DaoMain {
                 IdsUsados.add(999);
                 int Linha = 0;
                 if (prodto.moveToFirst()) do {
-                    String SimNao = prodto.getString(prodto.getColumnIndex("Cotar"));
+                    String NomeCliente = prodto.getString(prodto.getColumnIndex("NomeCliente"));
                     String IdCotacao = prodto.getString(prodto.getColumnIndex("IdCotacao"));
                     String IDCotacaoItens = prodto.getString(prodto.getColumnIndex("IdCotaMaster"));
                     String title = prodto.getString(prodto.getColumnIndex("Nome"));
@@ -150,7 +153,7 @@ public class Excel extends DaoMain {
                         }
                         else{
                             Linha++;
-                            PegarItens(Integer.valueOf(IdCotacao),title,title);
+                            PegarItens(Integer.valueOf(IdCotacao),title,NomeCliente,datarelatorio);
                             IdsUsados.add(Integer.valueOf(IdCotacao));
 
                             for(int z=0;z<ProdutoRelatorio.getOpcoes().get(0).getOpcoes().size();z++){
@@ -174,16 +177,16 @@ public class Excel extends DaoMain {
 ///////////////////////////////////////Desenho os resultados/////////////////////////////////////////////////////////////////
                                     sheet.addCell(new Label(z+1, QuantidadeCliente+2, "" + QuantidadeCliente,getCellFormat(Colour.ICE_BLUE,Colour.WHITE,12)));
                                     sheet.addCell(new Label(z+1, QuantidadeCliente+3, "" + ProdutoRelatorio.getOpcoes().get(0).getQuantidadesNao().get(z),getCellFormat(Colour.ICE_BLUE,Colour.WHITE,12)));
-                                    DecimalFormat formatar = new DecimalFormat("#.##");
+                                    DecimalFormat formatar = new DecimalFormat("###");
                                     DecimalFormatSymbols dfs = new DecimalFormatSymbols();
-                                    dfs.setDecimalSeparator('.');
-                                    formatar.setDecimalFormatSymbols(dfs);
-                                    double teste = Double.valueOf(ProdutoRelatorio.getOpcoes().get(0).getQuantidadesNao().get(z));
-                                    double Calcular = Double.valueOf(formatar.format(teste / QuantidadeCliente));
+                                    //dfs.setDecimalSeparator('.');
+                                    //formatar.setDecimalFormatSymbols(dfs);
+                                    int teste = Integer.valueOf(ProdutoRelatorio.getOpcoes().get(0).getQuantidadesNao().get(z));
+                                    int Calcular = Integer.valueOf(formatar.format(teste / QuantidadeCliente));
                                     sheet.addCell(new Label(z+1, QuantidadeCliente+4, String.valueOf(Calcular) + "%",getCellFormat(Colour.ICE_BLUE,Colour.WHITE,12)));
                                     sheet.addCell(new Label(z+1, QuantidadeCliente+5, "" + ProdutoRelatorio.getOpcoes().get(0).getQuantidadesSim().get(z),getCellFormat(Colour.ICE_BLUE,Colour.WHITE,12)));
-                                    teste = Double.valueOf(ProdutoRelatorio.getOpcoes().get(0).getQuantidadesSim().get(z));
-                                    Calcular = Double.valueOf(formatar.format(teste / QuantidadeCliente));
+                                    teste = Integer.valueOf(ProdutoRelatorio.getOpcoes().get(0).getQuantidadesSim().get(z));
+                                    Calcular = Integer.valueOf(formatar.format(teste / QuantidadeCliente));
                                     sheet.addCell(new Label(z+1, QuantidadeCliente+6, String.valueOf(Calcular) + "%",getCellFormat(Colour.ICE_BLUE,Colour.WHITE,12)));
                                 }
 
@@ -221,14 +224,17 @@ public class Excel extends DaoMain {
         }
     }
 
-    public void PegarItens(int idMaster,String Descricao,String Cliente){
+    public void PegarItens(int idMaster,String Descricao,String Cliente,String DataRelatorio){
         Cursor cursor = db.rawQuery("select Descricao, Id from produtos order by Descricao", null);
         //Query pra pegar  resto
         Cursor prodto = db.rawQuery("select p.*, (select c.Nome from cotacao c  where c.Id=p.IdCotacao) as Nome,  " +
                         "(select c.Id from cotacao c  where c.Id=p.IdCotacao )  as IdCotaMaster, " +
-                        "coalesce((select count(*) as Qtd from produtoscotacao pr where pr.Cotar = 0 and pr.Idproduto = p.Idproduto), 0) as QtdNao, " +
-                        "coalesce((select count(*) as Qtd from produtoscotacao pr where pr.Cotar = 1 and pr.Idproduto = p.Idproduto), 0) as QtdSim " +
-                        "from produtoscotacao p order by (select Descricao from produtos pp where pp.Id=p.Idproduto )"
+                        "coalesce((select count(*) as Qtd from produtoscotacao pr inner join cotacao cota on cota.Id=pr.IdCotacao " +
+                        "where pr.Cotar = 0 and pr.Idproduto = p.Idproduto and cota.Data='" + DataRelatorio + "'), 0) as QtdNao, " +
+                        "coalesce((select count(*) as Qtd from produtoscotacao pr inner join cotacao cota on cota.Id=pr.IdCotacao " +
+                        "where pr.Cotar = 1 and pr.Idproduto = p.Idproduto and cota.Data='" + DataRelatorio + "'), 0) as QtdSim " +
+                        "from produtoscotacao p where  p.IdCotacao in (select co.Id from cotacao co  where co.Data='" + DataRelatorio +
+                        "') order by (select Descricao from produtos pp where pp.Id=p.Idproduto )"
                 ,null);
         try {
             Opc.clear();

@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.v7.app.AlertDialog;
@@ -34,6 +35,7 @@ public class Relatorio extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_relatorio);
+        super.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         btnGerarRelatorio = (Button) findViewById(R.id.btnGerarRelatorio);
         btnVoltar = (Button) findViewById(R.id.btnVoltarRelatorio);

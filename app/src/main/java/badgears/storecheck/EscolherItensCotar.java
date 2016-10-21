@@ -3,6 +3,7 @@ package badgears.storecheck;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.database.SQLException;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -41,6 +42,7 @@ public class EscolherItensCotar extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_escolher_itens_cotar);
+        super.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         btnCancelar = (Button) findViewById(R.id.btCancelar);
         btnCancelar.setOnClickListener(new View.OnClickListener() {
@@ -87,13 +89,10 @@ public class EscolherItensCotar extends AppCompatActivity {
 
     private void setCotacaoRecebida(){
         this.oCotacao = (MCotacao) getIntent().getExtras().getParcelable("objCotacao");
-
     }
 
     public boolean VerificarItens(){
         boolean retorno = false;
-
-
         return retorno;
     }
 
@@ -191,12 +190,9 @@ public class EscolherItensCotar extends AppCompatActivity {
     }
 
     public void Salvar(){
-
-
-
         AlertDialog alert = new AlertDialog.Builder(this).create();
         alert.setTitle("Atenção");
-        alert.setMessage("Deseja fechar a cotação ?");
+        alert.setMessage("Deseja fechar o Store Check ?");
         alert.setButton(Dialog.BUTTON_POSITIVE,"Sim, salvar",new DialogInterface.OnClickListener(){
 
             @Override
@@ -207,7 +203,6 @@ public class EscolherItensCotar extends AppCompatActivity {
                 Intent intAddPrecos = new Intent(getBaseContext(), ControladorColocarPrecos.class);
                 intAddPrecos.putExtra("objCotacao", oCotacao);
                 startActivity(intAddPrecos);
-
                // Toast.makeText(getApplicationContext(), "Produtos salvos... \n Faltando gerar relatorio", Toast.LENGTH_SHORT).show();
                 finish();
             }
@@ -220,9 +215,7 @@ public class EscolherItensCotar extends AppCompatActivity {
 
             }
         });
-
         alert.show();
-
     }
 
     public void PegarProdutos (){

@@ -36,7 +36,14 @@ public class DatePickerFragment extends DialogFragment
     public void onDateSet(DatePicker view, int year, int month, int day) {
         // Do something with the date chosen by the user
         EditText edDataRelatorio = (EditText) getActivity().findViewById(R.id.etDataRelatorio);
-        edDataRelatorio.setText(view.getDayOfMonth() + "/" + view.getMonth() + "/" + view.getYear());
+        String mes = String.valueOf(view.getMonth() + 1);
+        if(view.getMonth()<9){
+            mes= 0 + mes;
+        }
+        else{
+            mes = mes;
+        }
+        edDataRelatorio.setText(view.getDayOfMonth() + "/" + mes + "/" + view.getYear());
         Toast.makeText(getActivity().getApplicationContext(), "DAta: " + view.getDayOfMonth() + "/" + view.getMonth() + "/" + view.getYear(), Toast.LENGTH_SHORT).show();
 
     }

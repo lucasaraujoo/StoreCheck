@@ -13,6 +13,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.format.DateUtils;
@@ -50,6 +51,7 @@ public class ControladorCotacao extends AppCompatActivity implements Button.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cotar);
+        super.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         this.edDataCotacao  =   (EditText)  findViewById(R.id.etData);
         this.edNomeCotacao  =   (EditText)  findViewById(R.id.etNomeCotacao);
@@ -57,6 +59,8 @@ public class ControladorCotacao extends AppCompatActivity implements Button.OnCl
         this.edCidade       =   (EditText)  findViewById(R.id.etCidade);
         this.edNomeCliente  =   (EditText)  findViewById(R.id.edCliente);
         this.edTelefone     =   (EditText)  findViewById(R.id.edTelefone);
+
+        this.edNomeCotacao.setEnabled(false);
 
         botao = (Button) findViewById(R.id.btnPegarData);
         botao.setOnClickListener(this);
@@ -70,9 +74,13 @@ public class ControladorCotacao extends AppCompatActivity implements Button.OnCl
 
 
         long date = System.currentTimeMillis();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/M/yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         String dateString = sdf.format(date);
         edDataCotacao.setText(dateString);
+        MDaoCotacao oDaoCotacao = new MDaoCotacao(getBaseContext());
+        if(!oDaoCotacao.VerificarNomeCotacaoDia(dateString)){
+            this.edNomeCotacao.setEnabled(true);
+        }
 
         this.carregaCotacaoRecebida();
     }
@@ -114,6 +122,8 @@ public class ControladorCotacao extends AppCompatActivity implements Button.OnCl
                     "DATA = " + data, Toast.LENGTH_SHORT)
                     .show();
             edDataCotacao.setText(data);
+            MDaoCotacao oDaoCotacao = new MDaoCotacao(getBaseContext());
+            oDaoCotacao.VerificarNomeCotacaoDia(data);
         }
     };
 

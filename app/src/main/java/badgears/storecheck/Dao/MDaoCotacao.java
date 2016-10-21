@@ -3,6 +3,7 @@ package badgears.storecheck.Dao;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteStatement;
+import android.util.Log;
 
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -56,6 +57,27 @@ public class MDaoCotacao extends  DaoMain {
         }
 
 
+    }
+
+    public boolean VerificarNomeCotacaoDia (String data){
+        boolean retorno = false;
+        String attTotais = "select * from cotacao c where c.Data='" + data +"'";
+
+        Cursor c = db.rawQuery(attTotais, null);
+        try {
+            if (c.getCount() > 0) {
+                c.moveToFirst();
+                do {
+                    retorno = true;
+                    return retorno;
+                }while(c.moveToNext());
+            }
+
+        } finally {
+            c.close();
+
+        }
+return retorno;
     }
 
     public boolean updatePrecos(ArrayList<MCotacaoItem> listaItens){

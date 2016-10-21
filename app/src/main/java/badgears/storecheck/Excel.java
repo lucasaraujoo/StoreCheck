@@ -182,11 +182,11 @@ public class Excel extends DaoMain {
                                     //dfs.setDecimalSeparator('.');
                                     //formatar.setDecimalFormatSymbols(dfs);
                                     int teste = Integer.valueOf(ProdutoRelatorio.getOpcoes().get(0).getQuantidadesNao().get(z));
-                                    int Calcular = Integer.valueOf(formatar.format(teste / QuantidadeCliente));
+                                    int Calcular = Integer.valueOf(teste / QuantidadeCliente)*100;
                                     sheet.addCell(new Label(z+1, QuantidadeCliente+4, String.valueOf(Calcular) + "%",getCellFormat(Colour.ICE_BLUE,Colour.WHITE,12)));
                                     sheet.addCell(new Label(z+1, QuantidadeCliente+5, "" + ProdutoRelatorio.getOpcoes().get(0).getQuantidadesSim().get(z),getCellFormat(Colour.ICE_BLUE,Colour.WHITE,12)));
                                     teste = Integer.valueOf(ProdutoRelatorio.getOpcoes().get(0).getQuantidadesSim().get(z));
-                                    Calcular = Integer.valueOf(formatar.format(teste / QuantidadeCliente));
+                                    Calcular = Integer.valueOf(teste / QuantidadeCliente)*100;
                                     sheet.addCell(new Label(z+1, QuantidadeCliente+6, String.valueOf(Calcular) + "%",getCellFormat(Colour.ICE_BLUE,Colour.WHITE,12)));
                                 }
 

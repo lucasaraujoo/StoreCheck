@@ -23,11 +23,110 @@
         android:maxLines="1"
         android:layout_below="@+id/textViewcCli"/>
 
+    <RelativeLayout
+        android:id="@+id/rlSegmentacao"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:layout_below="@+id/edCliente">
+
+        <TextView
+            android:id="@+id/tvSegmentacao"
+            android:layout_width="wrap_content"
+            android:textColor="#ffff"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Selecione o segmento do cliente:"/>
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_below="@+id/tvSegmentacao"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" >
+                <RadioButton
+                    android:id="@+id/radio_one0Id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#ffff"
+                    android:text="Padaria"
+                    android:onClick="oneRadioButtonClicked"
+                    android:textSize="13sp" />
+                <RadioButton
+                    android:id="@+id/radio_one5Id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#ffff"
+                    android:onClick="oneRadioButtonClicked"
+                    android:text="Conveniência"
+                    android:textSize="13sp" />
+
+                <RadioButton
+                    android:id="@+id/radio_one10Id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#ffff"
+                    android:onClick="oneRadioButtonClicked"
+                    android:text="Mercearia"
+                    android:textSize="13sp" />
+                <RadioButton
+                    android:id="@+id/radio_one20Id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#ffff"
+                    android:onClick="oneRadioButtonClicked"
+                    android:text="AS 1 a 4 co"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal" >
+
+                <RadioButton
+                    android:id="@+id/radio_one65Id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#ffff"
+                    android:onClick="oneRadioButtonClicked"
+                    android:text="AS 5 a 9 co"
+                    android:textSize="13sp" />
+
+                <RadioButton
+                    android:id="@+id/radio_one75Id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#ffff"
+                    android:onClick="oneRadioButtonClicked"
+                    android:text="Acima de 10 co"
+                    android:textSize="13sp" />
+                <RadioButton
+                    android:id="@+id/radio_one85Id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#ffff"
+                    android:onClick="oneRadioButtonClicked"
+                    android:text="Outros"
+                    android:textSize="13sp" />
+
+
+            </LinearLayout>
+
+        </RadioGroup>
+        </RelativeLayout>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Telefone: "
-        android:layout_below="@+id/edCliente"
+        android:layout_below="@+id/rlSegmentacao"
         android:id="@+id/textViewcTel"/>
 
     <EditText

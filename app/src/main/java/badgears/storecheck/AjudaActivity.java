@@ -1,5 +1,6 @@
 package badgears.storecheck;
 
+import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -13,6 +14,7 @@ public class AjudaActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        super.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         
         setContentView(R.layout.activity_ajuda);
         BtnVoltar = (Button) findViewById(R.id.btnVoltar);

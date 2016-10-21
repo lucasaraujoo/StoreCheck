@@ -47,11 +47,10 @@
     <RadioButton
         android:id="@+id/rbOpcaoRelatorio2"
         android:layout_width="wrap_content"
-        android:enabled="false"
         android:layout_height="wrap_content"
         android:layout_below="@+id/etDataRelatorio"
         android:layout_toRightOf="@+id/rbOpcaoRelatorio1"
-        android:text="Bscoitos"/>
+        android:text="Destacar totalizadores"/>
     <RadioButton
         android:id="@+id/rbOpcaoRelatorio3"
         android:layout_width="wrap_content"
@@ -60,14 +59,6 @@
         android:layout_below="@+id/etDataRelatorio"
         android:layout_toRightOf="@+id/rbOpcaoRelatorio2"
         android:text="Opção 3"/>
-    <RadioButton
-        android:id="@+id/rbOpcaoRelatorio4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:enabled="false"
-        android:layout_below="@+id/etDataRelatorio"
-        android:layout_toRightOf="@+id/rbOpcaoRelatorio3"
-        android:text="Opção4"/>
     <Button
         android:id="@+id/btnGerarRelatorio"
         android:layout_width="match_parent"

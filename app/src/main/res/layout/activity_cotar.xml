@@ -39,6 +39,7 @@
             android:text="Selecione o segmento do cliente:"/>
 
         <RadioGroup
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -50,6 +51,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1" >
                 <RadioButton
+                    android:enabled="false"
                     android:id="@+id/radio_one0Id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -60,6 +62,7 @@
                 <RadioButton
                     android:id="@+id/radio_one5Id"
                     android:layout_width="wrap_content"
+                    android:enabled="false"
                     android:layout_height="wrap_content"
                     android:textColor="#ffff"
                     android:onClick="oneRadioButtonClicked"
@@ -70,12 +73,14 @@
                     android:id="@+id/radio_one10Id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:enabled="false"
                     android:textColor="#ffff"
                     android:onClick="oneRadioButtonClicked"
                     android:text="Mercearia"
                     android:textSize="13sp" />
                 <RadioButton
                     android:id="@+id/radio_one20Id"
+                    android:enabled="false"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#ffff"
@@ -91,6 +96,7 @@
                 android:orientation="horizontal" >
 
                 <RadioButton
+                    android:enabled="false"
                     android:id="@+id/radio_one65Id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -101,6 +107,7 @@
 
                 <RadioButton
                     android:id="@+id/radio_one75Id"
+                    android:enabled="false"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#ffff"
@@ -110,6 +117,7 @@
                 <RadioButton
                     android:id="@+id/radio_one85Id"
                     android:layout_width="wrap_content"
+                    android:enabled="false"
                     android:layout_height="wrap_content"
                     android:textColor="#ffff"
                     android:onClick="oneRadioButtonClicked"

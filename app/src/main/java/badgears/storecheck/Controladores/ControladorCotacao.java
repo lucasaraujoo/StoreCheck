@@ -164,7 +164,6 @@ public class ControladorCotacao extends AppCompatActivity implements Button.OnCl
     }
 
     private void atualizaObjetoCliente(){
-        this.oCliente.setNome(this.edNomeCotacao.getText().toString());
         this.oCliente.setCidade(this.edCidade.getText().toString());
         this.oCliente.setNome(this.edNomeCliente.getText().toString());
         this.oCliente.setTelefone(this.edTelefone.getText().toString());
@@ -173,7 +172,12 @@ public class ControladorCotacao extends AppCompatActivity implements Button.OnCl
     private void atualizaObjetoCotacao() throws ParseException {
         this.oCotacaoEditar.setData(new SimpleDateFormat("dd/MM/yyyy").parse(this.edDataCotacao.getText().toString()));
         this.oCotacaoEditar.setObs(this.edObsCotacao.getText().toString());
-        this.oCotacaoEditar.setNome(this.edNomeCotacao.getText().toString());
+        if(this.edNomeCotacao.isEnabled()) {
+            this.oCotacaoEditar.setNome(this.edNomeCotacao.getText().toString());
+        }
+        else {
+            this.oCotacaoEditar.setNome("Sem Nome");
+        }
         this.oCotacaoEditar.setIDCliente(this.oCliente.getId());
 
 

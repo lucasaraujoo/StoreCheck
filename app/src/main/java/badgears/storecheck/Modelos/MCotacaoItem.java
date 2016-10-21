@@ -15,7 +15,7 @@ public class MCotacaoItem implements Parcelable, Comparable<MCotacaoItem> {
 
     public MCotacaoItem(MProduto oProduto) {
         this.oProduto = oProduto;
-        this.bCotar   = true;
+        this.bCotar   = false;
         this.Preco1  = 0.00;
         this.Preco2  = 0.00;
     }

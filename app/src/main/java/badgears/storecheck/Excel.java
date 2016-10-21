@@ -43,6 +43,8 @@ public class Excel extends DaoMain {
     public int TotalSim;
     public int TotalNao;
     public ArrayList<String> Opc = new ArrayList<String>();
+    public ArrayList<String> Pr1 = new ArrayList<String>();
+    public ArrayList<String> Pr2 = new ArrayList<String>();
     public ArrayList<Integer> QtdsNao = new ArrayList<Integer>();
     public ArrayList<Integer> QtdsSim = new ArrayList<Integer>();
     private ArrayList<MItensRelatorio> Itens = new ArrayList<MItensRelatorio>();
@@ -63,12 +65,12 @@ public class Excel extends DaoMain {
         return cellFormat;
     }
 
-    public void exportToExcel(String datarelatorio) throws IOException, WriteException{
+    public void exportToExcel(String datarelatorio,boolean exibirTotais) throws IOException, WriteException{
         Cursor cursor = db.rawQuery("select Descricao, Id from produtos order by Descricao", null);
         //Query pra pegar  resto
         Cursor prodto = db.rawQuery("select p.*, (select c.Nome from cotacao c  where c.Id=p.IdCotacao) as Nome,  " +
                 "(select c.Id from cotacao c  where c.Id=p.IdCotacao )  as IdCotaMaster, " +
-                "(select count(*) from cotacao cc where cc.Data='" + datarelatorio + "') as QuantidadeC, cota.Nome as NomeCliente " +
+                "(select count(*) from cotacao cc where cc.Data='" + datarelatorio + "') as QuantidadeC, cc.Nome as NomeCliente " +
                 "from produtoscotacao p inner join cotacao cota on cota.Id=p.IDCotacao " +
                 "inner join clientes cc on cc.Id=cota.IDCliente " +
                 "where  p.IdCotacao in (select co.Id from cotacao co  where co.Data='" + datarelatorio +"')" +
@@ -97,18 +99,22 @@ public class Excel extends DaoMain {
 
         WorkbookSettings wbSettings = new WorkbookSettings();
         wbSettings.setLocale(new Locale("en", "EN"));
+
         WritableWorkbook workbook;
         //Label label_name = new Label(0, 0, "value", getCellFormat(Colour.GREEN, Pattern.GRAY_25));
         try {
             workbook = Workbook.createWorkbook(file, wbSettings);
             //Excel sheet name. 0 represents first sheet
             WritableSheet sheet = workbook.createSheet("StoreCheck MOBILE V1.0", 0);
+            WritableSheet sheetPrecos = workbook.createSheet("Preços", 1);
          //   Label label = new Label(0, 0, "Descrição", getCellFormat(Colour.GREEN, Pattern.GRAY_25));
            // Label label2 = new Label(1, 0, "Categoria", getCellFormat(Colour.BLUE, Pattern.GRAY_50));
 
 
             try {
                 sheet.addCell(new Label(0, 0, "Clientes: ",getCellFormat(Colour.DARK_BLUE,Colour.WHITE,17)));
+
+                sheetPrecos.addCell(new Label(0, 0, "Clientes: ",getCellFormat(Colour.DARK_BLUE,Colour.WHITE,17)));
 
                 //sheet.addCell(label); // column and row
                 //sheet.addCell(label2);
@@ -120,8 +126,9 @@ public class Excel extends DaoMain {
                         int i = cursor.getPosition() + 1;
                        // Opc.add("Sim");
                         sheet.setColumnView(i,25);
-                        sheet.addCell(new Label(i, 0, title,getCellFormat(Colour.DARK_BLUE,Colour.WHITE,17))); // Escrevemos as categorias nas colunas
-                       // sheet.addCell(new Label(1, i, desc));
+                        sheetPrecos.setColumnView(i,25);
+                        sheet.addCell(new Label(i, 0, title,getCellFormat(Colour.DARK_BLUE,Colour.WHITE,17))); // Escrevemos os produtos nas colunas
+                        sheetPrecos.addCell(new Label(i, 0, title,getCellFormat(Colour.DARK_BLUE,Colour.WHITE,17)));
                     } while (cursor.moveToNext());
                 }
                 //closing cursor
@@ -158,17 +165,22 @@ public class Excel extends DaoMain {
 
                             for(int z=0;z<ProdutoRelatorio.getOpcoes().get(0).getOpcoes().size();z++){
                                 if(ProdutoRelatorio.getId() == Integer.valueOf(IdCotacao)){
+
                                     if(ProdutoRelatorio.getOpcoes().get(0).getOpcoes().get(z).equals("1")) {
-                                        //                                   ProdutoRelatorio.getOpcoes().get(0).getOpcoes().get(z)
+                                        sheetPrecos.addCell(new Label(z + 1, Linha,ProdutoRelatorio.getOpcoes().get(0).getPreco1().get(z), getCellFormat(Colour.GREEN,Colour.WHITE,10)));
                                         sheet.addCell(new Label(z + 1, Linha,"Sim", getCellFormat(Colour.GREEN,Colour.WHITE,10)));
                                         TotalSim++;
                                     }
                                     else{
+                                        //Printar Aqui o preço
                                         TotalNao++;
+                                        sheetPrecos.addCell(new Label(z + 1, Linha, ProdutoRelatorio.getOpcoes().get(0).getPreco1().get(z), getCellFormat(Colour.RED,Colour.WHITE,10)));
                                         sheet.addCell(new Label(z + 1, Linha, "Não", getCellFormat(Colour.RED,Colour.WHITE,10)));
                                     }
                                     sheet.setColumnView(0,35);
                                     sheet.addCell(new Label(0, Linha, ProdutoRelatorio.getCliente(),getCellFormat(Colour.BLUE_GREY,Colour.WHITE,10)));
+                                    sheetPrecos.addCell(new Label(0, Linha, ProdutoRelatorio.getCliente(),getCellFormat(Colour.BLUE_GREY,Colour.WHITE,10)));
+                                    if(exibirTotais){
                                     sheet.addCell(new Label(0, QuantidadeCliente+2, "Total clientes visitados: ",getCellFormat(Colour.ICE_BLUE,Colour.WHITE,12)));
                                     sheet.addCell(new Label(0, QuantidadeCliente+3, "Total clientes não atendido com os produtos: ",getCellFormat(Colour.ICE_BLUE,Colour.WHITE,12)));
                                     sheet.addCell(new Label(0, QuantidadeCliente+4, "% clientes sem os produtos: ",getCellFormat(Colour.ICE_BLUE,Colour.WHITE,12)));
@@ -188,7 +200,7 @@ public class Excel extends DaoMain {
                                     teste = Integer.valueOf(ProdutoRelatorio.getOpcoes().get(0).getQuantidadesSim().get(z));
                                     Calcular = Integer.valueOf(teste / QuantidadeCliente)*100;
                                     sheet.addCell(new Label(z+1, QuantidadeCliente+6, String.valueOf(Calcular) + "%",getCellFormat(Colour.ICE_BLUE,Colour.WHITE,12)));
-                                }
+                                }}
 
                             }
                         }
@@ -238,9 +250,13 @@ public class Excel extends DaoMain {
                 ,null);
         try {
             Opc.clear();
+            Pr1.clear();
+            Pr2.clear();
             if (prodto.moveToFirst()) {
                 do {
                     String SimNao = prodto.getString(prodto.getColumnIndex("Cotar"));
+                    String Preco1 =prodto.getString(prodto.getColumnIndex("Preco1"));
+                    String Preco2 =prodto.getString(prodto.getColumnIndex("Preco2"));
                     String IdCotacao = prodto.getString(prodto.getColumnIndex("IdCotacao"));
                     int qtdNao = prodto.getInt(prodto.getColumnIndex("QtdNao"));
                     int qtdSim = prodto.getInt(prodto.getColumnIndex("QtdSim"));
@@ -249,6 +265,8 @@ public class Excel extends DaoMain {
                         Opc.add(SimNao);
                         QtdsNao.add(qtdNao);
                         QtdsSim.add(qtdSim);
+                        Pr1.add(Preco1);
+                        Pr2.add(Preco2);
                     }
 
                     int i = prodto.getPosition() + 1;
@@ -257,7 +275,7 @@ public class Excel extends DaoMain {
             }
             //Aqui printa o relatorio
 
-            MItensRelatorio item = new MItensRelatorio(idMaster,idMaster,Opc,QtdsSim,QtdsNao);
+            MItensRelatorio item = new MItensRelatorio(idMaster,idMaster,Opc,QtdsSim,QtdsNao,Pr1,Pr2);
             Itens.clear();
             Itens.add(item);
           //  MCategoria m = new MCategoria(idMaster,Descricao,Itens,Cliente);

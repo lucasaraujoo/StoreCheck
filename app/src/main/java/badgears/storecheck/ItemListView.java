@@ -79,6 +79,10 @@ public class ItemListView extends BaseAdapter {
                 listaItensCotacao.get(position).setbCotar(i == rbSim.getId());
             }
         });
+        // Step - 3 set the Tag position
+        rbSim.setTag(position);
+//Step - 4 Set the value of the item
+        rbSim.setChecked(listaItensCotacao.get(position).getbCotar());
 
         return itemView;
     }

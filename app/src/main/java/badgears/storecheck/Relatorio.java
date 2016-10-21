@@ -14,6 +14,7 @@ import android.support.v4.app.DialogFragment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import java.io.File;
@@ -30,6 +31,7 @@ public class Relatorio extends AppCompatActivity {
     public Button btnVoltar;
     public EditText etDataRelatorio;
     public Button btnPegarData;
+    public RadioButton rbTotalizadores;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +40,7 @@ public class Relatorio extends AppCompatActivity {
         super.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         btnGerarRelatorio = (Button) findViewById(R.id.btnGerarRelatorio);
+        rbTotalizadores = (RadioButton) findViewById(R.id.rbOpcaoRelatorio2);
         btnVoltar = (Button) findViewById(R.id.btnVoltarRelatorio);
         etDataRelatorio = (EditText) findViewById(R.id.etDataRelatorio);
         btnPegarData = (Button)findViewById(R.id.btnData);
@@ -50,7 +53,7 @@ public class Relatorio extends AppCompatActivity {
                 Excel t = new Excel(Relatorio.this);
                 if (VerificarData(etDataRelatorio.getText().toString())){
                     try {
-                        t.exportToExcel(etDataRelatorio.getText().toString());
+                        t.exportToExcel(etDataRelatorio.getText().toString(),rbTotalizadores.isChecked());
                         Relatorio();
                     } catch (IOException e) {
                         e.printStackTrace();

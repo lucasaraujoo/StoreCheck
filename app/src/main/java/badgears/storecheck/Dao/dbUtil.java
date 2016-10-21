@@ -16,6 +16,7 @@ public class dbUtil {
                     "Nome        TEXT NOT NULL,"+
                     "Datacad     DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,"+
                     "CPFCNPJ     TEXT,"+
+                    "Segmentacao     TEXT,"+
                     "Telefone    TEXT,"+
                     "Cidade      TEXT NOT NULL);",
 

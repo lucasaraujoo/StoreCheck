@@ -20,8 +20,8 @@ public class MDaoCliente extends DaoMain{
     public boolean gravaCliente(MCliente objCliente){
         
         boolean retorno = false;
-        String InsertCliente = "insert into clientes (Nome ,Datacad ,CPFCNPJ , Telefone, Cidade  )"+
-                                " values (? , ? ,? ,?, ?)";
+        String InsertCliente = "insert into clientes (Nome ,Datacad ,CPFCNPJ ,Segmentacao , Telefone, Cidade  )"+
+                                " values (? , ? ,?, ? ,?, ?)";
 
         int IDCliente = objCliente.getId();
 
@@ -33,8 +33,9 @@ public class MDaoCliente extends DaoMain{
             stmt.bindString(1, objCliente.getNome());
             stmt.bindString(2, new SimpleDateFormat("dd/MM/yyyy").format( new Date()));
             stmt.bindString(3, objCliente.getCPFCNPJ());
-            stmt.bindString(4, objCliente.getTelefone());
-            stmt.bindString(5, objCliente.getCidade());
+            stmt.bindString(4, objCliente.getSegmento());
+            stmt.bindString(5, objCliente.getTelefone());
+            stmt.bindString(6, objCliente.getCidade());
 
             IDCliente = (int) stmt.executeInsert();
             objCliente.setId(IDCliente);

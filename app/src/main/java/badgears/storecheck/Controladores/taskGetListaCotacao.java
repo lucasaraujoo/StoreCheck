@@ -57,6 +57,6 @@ public class taskGetListaCotacao extends AsyncTask<Void, Void, ArrayList<MCotaca
     @Override
     protected void onPostExecute(ArrayList<MCotacao> oLista) {
         super.onPostExecute(oLista);
-        contexto.setListaDeCotacoes(oLista);
+        //contexto.setListaDeCotacoes(oLista);
     }
 }

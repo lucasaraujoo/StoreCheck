@@ -80,8 +80,8 @@ public class ControladorColocarPrecos extends AppCompatActivity {
     private void carregarListaDeProdutosACotar(){
         for (int i = 0 ; i < oCotacao.getItensCotacao().size(); i++){
            // if (oCotacao.getItensCotacao().get(i).getbCotar() ){            Desativado, trás os itens marcados como sim ou não agora
-              //   this.listaProdCotar.add(oCotacao.getItensCotacao().get(i));
-                Toast.makeText(getApplicationContext(), "Id " + oCotacao.getItensCotacao().get(i).getoProduto().getId(), Toast.LENGTH_SHORT).show();
+                 this.listaProdCotar.add(oCotacao.getItensCotacao().get(i));
+              //  Toast.makeText(getApplicationContext(), "Id " + oCotacao.getItensCotacao().get(i).getoProduto().getId(), Toast.LENGTH_SHORT).show();
             //}
         }
     }

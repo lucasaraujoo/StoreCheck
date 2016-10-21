@@ -70,7 +70,8 @@ public class Excel extends DaoMain {
         //Query pra pegar  resto
         Cursor prodto = db.rawQuery("select p.*, (select c.Nome from cotacao c  where c.Id=p.IdCotacao) as Nome,  " +
                 "(select c.Id from cotacao c  where c.Id=p.IdCotacao )  as IdCotaMaster, " +
-                "(select count(*) from cotacao cc where cc.Data='" + datarelatorio + "') as QuantidadeC, cc.Nome as NomeCliente " +
+                "(select count(*) from cotacao cc where cc.Data='" + datarelatorio + "') as QuantidadeC, cc.Nome as NomeCliente, " +
+                "cota.Obs as Obs, cota.data as DataCotacao, cc.Cidade as Cidade, cc.Segmentacao as Segmentacao " +
                 "from produtoscotacao p inner join cotacao cota on cota.Id=p.IDCotacao " +
                 "inner join clientes cc on cc.Id=cota.IDCliente " +
                 "where  p.IdCotacao in (select co.Id from cotacao co  where co.Data='" + datarelatorio +"')" +
@@ -112,23 +113,30 @@ public class Excel extends DaoMain {
 
 
             try {
-                sheet.addCell(new Label(0, 0, "Clientes: ",getCellFormat(Colour.DARK_BLUE,Colour.WHITE,17)));
+                sheet.addCell(new Label(3, 0, "Clientes: ",getCellFormat(Colour.DARK_BLUE,Colour.WHITE,17)));
 
-                sheetPrecos.addCell(new Label(0, 0, "Clientes: ",getCellFormat(Colour.DARK_BLUE,Colour.WHITE,17)));
+                sheetPrecos.addCell(new Label(3, 0, "Clientes: ",getCellFormat(Colour.DARK_BLUE,Colour.WHITE,17)));
 
                 //sheet.addCell(label); // column and row
                 //sheet.addCell(label2);
+                int i = 1;
+                int z=1;
                 if (cursor.moveToFirst()) {
                     do {
                         String title = cursor.getString(cursor.getColumnIndex("Descricao"));
                 //        String desc = cursor.getString(cursor.getColumnIndex("Categoria"));
 
-                        int i = cursor.getPosition() + 1;
+
                        // Opc.add("Sim");
-                        sheet.setColumnView(i,25);
+                        sheet.setColumnView(z,25);
                         sheetPrecos.setColumnView(i,25);
-                        sheet.addCell(new Label(i, 0, title,getCellFormat(Colour.DARK_BLUE,Colour.WHITE,17))); // Escrevemos os produtos nas colunas
-                        sheetPrecos.addCell(new Label(i, 0, title,getCellFormat(Colour.DARK_BLUE,Colour.WHITE,17)));
+                        sheet.addCell(new Label(z+3, 0, title,getCellFormat(Colour.DARK_BLUE,Colour.WHITE,17))); // Escrevemos os produtos nas colunas
+                        sheetPrecos.addCell(new Label(i+3, 0, title + " - Meu preço",getCellFormat(Colour.DARK_BLUE,Colour.WHITE,10)));
+                       i++;
+                        sheetPrecos.setColumnView(i,25);
+                        sheetPrecos.addCell(new Label(i+3, 0, title + " - Encontrado",getCellFormat(Colour.DARK_BLUE,Colour.WHITE,10)));
+                       i++;
+                        z++;
                     } while (cursor.moveToNext());
                 }
                 //closing cursor
@@ -146,7 +154,10 @@ public class Excel extends DaoMain {
                 if (prodto.moveToFirst()) do {
                     String NomeCliente = prodto.getString(prodto.getColumnIndex("NomeCliente"));
                     String IdCotacao = prodto.getString(prodto.getColumnIndex("IdCotacao"));
-                    String IDCotacaoItens = prodto.getString(prodto.getColumnIndex("IdCotaMaster"));
+                    String Obs = prodto.getString(prodto.getColumnIndex("Obs"));
+                    String DataCotacao = prodto.getString(prodto.getColumnIndex("DataCotacao"));
+                    String Segmentacao = prodto.getString(prodto.getColumnIndex("Segmentacao"));
+                    String Cidade = prodto.getString(prodto.getColumnIndex("Cidade"));
                     String title = prodto.getString(prodto.getColumnIndex("Nome"));
                     int QuantidadeCliente = prodto.getInt(prodto.getColumnIndex("QuantidadeC"));
 
@@ -162,25 +173,62 @@ public class Excel extends DaoMain {
                             Linha++;
                             PegarItens(Integer.valueOf(IdCotacao),title,NomeCliente,datarelatorio);
                             IdsUsados.add(Integer.valueOf(IdCotacao));
-
-                            for(int z=0;z<ProdutoRelatorio.getOpcoes().get(0).getOpcoes().size();z++){
+                            int retira=1;
+                            int retira2=1;
+                            for(int z=0;z<84;z++){
                                 if(ProdutoRelatorio.getId() == Integer.valueOf(IdCotacao)){
+                                    if(z<=41) {
+                                        if (ProdutoRelatorio.getOpcoes().get(0).getOpcoes().get(z).equals("1")) {
+                                            sheet.addCell(new Label(z + 4, Linha, "Sim", getCellFormat(Colour.GREEN, Colour.WHITE, 10)));
+                                            TotalSim++;
+                                        } else {
+                                            //Printar Aqui o preço
+                                            TotalNao++;
+                                            sheet.addCell(new Label(z + 4, Linha, "Não", getCellFormat(Colour.RED, Colour.WHITE, 10)));
+                                        }
+                                    }
+                                    if(z % 2 == 0) {
+                                        String pr1;
+                                        if (z > 1) {
+                                             pr1 = ProdutoRelatorio.getOpcoes().get(0).getPreco1().get(z - retira2);
+                                            retira2++;
+                                        }else{
+                                         pr1 = ProdutoRelatorio.getOpcoes().get(0).getPreco1().get(z);
+                                    }
+                                        sheetPrecos.addCell(new Label(z + 4, Linha, pr1, getCellFormat(Colour.GREEN, Colour.WHITE, 10)));
+                                    }else {
 
-                                    if(ProdutoRelatorio.getOpcoes().get(0).getOpcoes().get(z).equals("1")) {
-                                        sheetPrecos.addCell(new Label(z + 1, Linha,ProdutoRelatorio.getOpcoes().get(0).getPreco1().get(z), getCellFormat(Colour.GREEN,Colour.WHITE,10)));
-                                        sheet.addCell(new Label(z + 1, Linha,"Sim", getCellFormat(Colour.GREEN,Colour.WHITE,10)));
-                                        TotalSim++;
+                                        String pr2 = ProdutoRelatorio.getOpcoes().get(0).getPreco2().get(z-retira);
+                                        retira++;
+                                        sheetPrecos.addCell(new Label(z + 4, Linha, pr2, getCellFormat(Colour.GREEN, Colour.WHITE, 10)));
                                     }
-                                    else{
-                                        //Printar Aqui o preço
-                                        TotalNao++;
-                                        sheetPrecos.addCell(new Label(z + 1, Linha, ProdutoRelatorio.getOpcoes().get(0).getPreco1().get(z), getCellFormat(Colour.RED,Colour.WHITE,10)));
-                                        sheet.addCell(new Label(z + 1, Linha, "Não", getCellFormat(Colour.RED,Colour.WHITE,10)));
-                                    }
-                                    sheet.setColumnView(0,35);
-                                    sheet.addCell(new Label(0, Linha, ProdutoRelatorio.getCliente(),getCellFormat(Colour.BLUE_GREY,Colour.WHITE,10)));
-                                    sheetPrecos.addCell(new Label(0, Linha, ProdutoRelatorio.getCliente(),getCellFormat(Colour.BLUE_GREY,Colour.WHITE,10)));
+                                    sheet.setColumnView(3,35);
+                                    sheet.addCell(new Label(3, Linha, ProdutoRelatorio.getCliente(),getCellFormat(Colour.BLUE_GREY,Colour.WHITE,10)));
+                                    sheetPrecos.addCell(new Label(3, Linha, ProdutoRelatorio.getCliente(),getCellFormat(Colour.BLUE_GREY,Colour.WHITE,10)));
+
+                                    //Desenhar data
+                                    sheet.addCell(new Label(1, 0, "Data",getCellFormat(Colour.DARK_BLUE,Colour.WHITE,17)));
+                                    sheetPrecos.addCell(new Label(1, 0, "Data",getCellFormat(Colour.DARK_BLUE,Colour.WHITE,17)));
+                                    sheet.addCell(new Label(1, Linha, DataCotacao,getCellFormat(Colour.BLUE_GREY,Colour.WHITE,10)));
+                                    sheetPrecos.addCell(new Label(1, Linha, DataCotacao,getCellFormat(Colour.BLUE_GREY,Colour.WHITE,10)));
+                                    //Desenhar Cidade
+                                    sheet.addCell(new Label(0, 0, "Cidade",getCellFormat(Colour.DARK_BLUE,Colour.WHITE,17)));
+                                    sheetPrecos.addCell(new Label(0, 0, "Cidade",getCellFormat(Colour.DARK_BLUE,Colour.WHITE,17)));
+                                    sheet.addCell(new Label(0, Linha, Cidade,getCellFormat(Colour.BLUE_GREY,Colour.WHITE,10)));
+                                    sheetPrecos.addCell(new Label(0, Linha, Cidade,getCellFormat(Colour.BLUE_GREY,Colour.WHITE,10)));
+                                    //Desenhar Segmentacao
+                                    sheet.addCell(new Label(2, 0, "Segmento",getCellFormat(Colour.DARK_BLUE,Colour.WHITE,17)));
+                                    sheetPrecos.addCell(new Label(2, 0, "Segmentacao",getCellFormat(Colour.DARK_BLUE,Colour.WHITE,17)));
+                                    sheet.addCell(new Label(2, Linha, Segmentacao,getCellFormat(Colour.BLUE_GREY,Colour.WHITE,10)));
+                                    sheetPrecos.addCell(new Label(2, Linha, Segmentacao,getCellFormat(Colour.BLUE_GREY,Colour.WHITE,10)));
+                                    //Desenhar Obs
+                                    sheet.addCell(new Label(45, 0, "Observação",getCellFormat(Colour.DARK_BLUE,Colour.WHITE,17)));
+                                    sheetPrecos.addCell(new Label(87, 0, "Observação",getCellFormat(Colour.DARK_BLUE,Colour.WHITE,17)));
+                                    sheet.addCell(new Label(45, Linha, Obs,getCellFormat(Colour.BLUE_GREY,Colour.WHITE,10)));
+                                    sheetPrecos.addCell(new Label(87, Linha, Obs,getCellFormat(Colour.BLUE_GREY,Colour.WHITE,10)));
+                                    //Caso marque a opção
                                     if(exibirTotais){
+                                        if(z<=27) {
                                     sheet.addCell(new Label(0, QuantidadeCliente+2, "Total clientes visitados: ",getCellFormat(Colour.ICE_BLUE,Colour.WHITE,12)));
                                     sheet.addCell(new Label(0, QuantidadeCliente+3, "Total clientes não atendido com os produtos: ",getCellFormat(Colour.ICE_BLUE,Colour.WHITE,12)));
                                     sheet.addCell(new Label(0, QuantidadeCliente+4, "% clientes sem os produtos: ",getCellFormat(Colour.ICE_BLUE,Colour.WHITE,12)));
@@ -200,7 +248,7 @@ public class Excel extends DaoMain {
                                     teste = Integer.valueOf(ProdutoRelatorio.getOpcoes().get(0).getQuantidadesSim().get(z));
                                     Calcular = Integer.valueOf(teste / QuantidadeCliente)*100;
                                     sheet.addCell(new Label(z+1, QuantidadeCliente+6, String.valueOf(Calcular) + "%",getCellFormat(Colour.ICE_BLUE,Colour.WHITE,12)));
-                                }}
+                                }}}
 
                             }
                         }
@@ -246,7 +294,7 @@ public class Excel extends DaoMain {
                         "coalesce((select count(*) as Qtd from produtoscotacao pr inner join cotacao cota on cota.Id=pr.IdCotacao " +
                         "where pr.Cotar = 1 and pr.Idproduto = p.Idproduto and cota.Data='" + DataRelatorio + "'), 0) as QtdSim " +
                         "from produtoscotacao p where  p.IdCotacao in (select co.Id from cotacao co  where co.Data='" + DataRelatorio +
-                        "') order by (select Descricao from produtos pp where pp.Id=p.Idproduto )"
+                        "')"
                 ,null);
         try {
             Opc.clear();

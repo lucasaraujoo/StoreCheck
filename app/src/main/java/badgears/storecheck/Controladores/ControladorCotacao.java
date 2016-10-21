@@ -21,6 +21,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.text.ParseException;
@@ -33,12 +36,14 @@ public class ControladorCotacao extends AppCompatActivity implements Button.OnCl
     private MCotacao oCotacaoEditar = null;
     private MCliente oCliente       = null;
 
-    private EditText edNomeCotacao ;
+    private RadioButton selectedRadioButton ;
+    private RadioGroup gender;
     private EditText edObsCotacao ;
     private EditText edDataCotacao;
     private EditText edNomeCliente;
     private EditText edCidade;
     private EditText edTelefone;
+    private Spinner spSegmentos;
 
 
     private Button botao;
@@ -54,13 +59,13 @@ public class ControladorCotacao extends AppCompatActivity implements Button.OnCl
         super.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         this.edDataCotacao  =   (EditText)  findViewById(R.id.etData);
-        this.edNomeCotacao  =   (EditText)  findViewById(R.id.etNomeCotacao);
         this.edObsCotacao  =   (EditText)  findViewById(R.id.edObs);
         this.edCidade       =   (EditText)  findViewById(R.id.etCidade);
         this.edNomeCliente  =   (EditText)  findViewById(R.id.edCliente);
         this.edTelefone     =   (EditText)  findViewById(R.id.edTelefone);
+        this.spSegmentos = (Spinner) findViewById(R.id.spSegmentos);
 
-        this.edNomeCotacao.setEnabled(false);
+        //this.edNomeCotacao.setEnabled(false);
 
         botao = (Button) findViewById(R.id.btnPegarData);
         botao.setOnClickListener(this);
@@ -77,10 +82,6 @@ public class ControladorCotacao extends AppCompatActivity implements Button.OnCl
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         String dateString = sdf.format(date);
         edDataCotacao.setText(dateString);
-        MDaoCotacao oDaoCotacao = new MDaoCotacao(getBaseContext());
-        if(!oDaoCotacao.VerificarNomeCotacaoDia(dateString)){
-            this.edNomeCotacao.setEnabled(true);
-        }
 
         this.carregaCotacaoRecebida();
     }
@@ -160,24 +161,20 @@ public class ControladorCotacao extends AppCompatActivity implements Button.OnCl
 
     private void carregaCotacaoParaEdicao(){
         //this.edDataCotacao.setText(new SimpleDateFormat("dd/MM/yyyy").format( new Date()));
-        this.edNomeCotacao.setText(this.oCotacaoEditar.getNome());
+       // this.edNomeCotacao.setText(this.oCotacaoEditar.getNome());
     }
 
     private void atualizaObjetoCliente(){
         this.oCliente.setCidade(this.edCidade.getText().toString());
         this.oCliente.setNome(this.edNomeCliente.getText().toString());
+        this.oCliente.setSegmento(this.spSegmentos.getSelectedItem().toString());
         this.oCliente.setTelefone(this.edTelefone.getText().toString());
     }
 
     private void atualizaObjetoCotacao() throws ParseException {
         this.oCotacaoEditar.setData(new SimpleDateFormat("dd/MM/yyyy").parse(this.edDataCotacao.getText().toString()));
         this.oCotacaoEditar.setObs(this.edObsCotacao.getText().toString());
-        if(this.edNomeCotacao.isEnabled()) {
-            this.oCotacaoEditar.setNome(this.edNomeCotacao.getText().toString());
-        }
-        else {
-            this.oCotacaoEditar.setNome("Sem Nome");
-        }
+        this.oCotacaoEditar.setNome("Sem Nome");
         this.oCotacaoEditar.setIDCliente(this.oCliente.getId());
 
 
@@ -232,9 +229,9 @@ public class ControladorCotacao extends AppCompatActivity implements Button.OnCl
     private boolean gravaCotacao(){
 
         Boolean retorno = false;
-        if (this.oCotacaoEditar.getNome().trim().length() == 0){
-            Toast.makeText(ControladorCotacao.this, "Informe o Nome da Cotação!", Toast.LENGTH_SHORT).show();
-            this.edNomeCotacao.requestFocus();
+        if (this.oCotacaoEditar.getData().toString().trim().length() == 0){
+            Toast.makeText(ControladorCotacao.this, "Informe a data do StoreCheck!", Toast.LENGTH_SHORT).show();
+           // this.edNomeCotacao.requestFocus();
             return false;
         }
 

@@ -10,6 +10,7 @@ public class MCliente implements Parcelable, Comparable<MCliente> {
     protected int id;
     protected String Nome;
     protected String CPFCNPJ;
+    protected String Segmento;
     protected String Cidade;
     protected String Telefone;
 
@@ -18,14 +19,17 @@ public class MCliente implements Parcelable, Comparable<MCliente> {
         id = in.readInt();
         Nome = in.readString();
         CPFCNPJ = in.readString();
+        Segmento = in.readString();
         Cidade = in.readString();
         Telefone = in.readString();
     }
 
     public MCliente() {
         this.CPFCNPJ = "";
+        this.Segmento = "";
         this.Cidade = "";
         this.Telefone = "";
+
     }
 
     public String getCidade() {
@@ -44,6 +48,13 @@ public class MCliente implements Parcelable, Comparable<MCliente> {
         this.CPFCNPJ = CPFCNPJ;
     }
 
+    public String getSegmento() {
+        return Segmento;
+    }
+
+    public void setSegmento(String segmento) {
+        Segmento = segmento;
+    }
 
     public int getId() {
         return id;
@@ -96,6 +107,7 @@ public class MCliente implements Parcelable, Comparable<MCliente> {
         parcel.writeInt(id);
         parcel.writeString(Nome);
         parcel.writeString(CPFCNPJ);
+        parcel.writeString(Segmento);
         parcel.writeString(Cidade);
         parcel.writeString(Telefone);
     }

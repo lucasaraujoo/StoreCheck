@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         this.lista = (ListView) findViewById(R.id.lvCotacoes);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_arc_menu_1);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.arcmenu_android_example_layout);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -60,15 +60,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        FloatingActionButton fab2 = (FloatingActionButton) findViewById(R.id.fab_arc_menu_2);
-        fab2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Cria cotação biscoitos
-                Toast.makeText(getApplicationContext(), "Biscoitos", Toast.LENGTH_SHORT).show();
-
-            }
-        });
 
         this.VerificaBD();
         Produtos = new MDaoProduto(this);
@@ -150,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
         new taskGetListaCotacao(this).execute();
 
     }
-
+//Desativei verificação por que tava bugado
     public void setListaDeCotacoes(ArrayList<MCotacao> oLista){
 
         this.listaDeCotacoes = oLista;

@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">Store chek MOBILE</string>
     <string name="action_settings">Ajuda</string>
+    <string-array name="segmentacaoArray">
+        <item>Padaria</item>
+        <item>Loja de Conveniência</item>
+        <item>Mercearia</item>
+        <item>AS 1 a 4 co</item>
+        <item>AS 5 a 9 co</item>
+        <item>Acima de 10 co</item>
+        <item>Outros</item>
+    </string-array>
 </resources>

@@ -45,7 +45,6 @@ public class Relatorio extends AppCompatActivity {
         etDataRelatorio = (EditText) findViewById(R.id.etDataRelatorio);
         btnPegarData = (Button)findViewById(R.id.btnData);
 
-
         btnGerarRelatorio.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -86,6 +85,12 @@ public class Relatorio extends AppCompatActivity {
 
             }
         });
+
+        //Joga a data atual no campo de texto assim que inicia a tela.
+        long date = System.currentTimeMillis();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        String dateString = sdf.format(date);
+        etDataRelatorio.setText(dateString);
 
     }
     public void showDatePickerDialog(View v) {
@@ -151,7 +156,7 @@ public class Relatorio extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 File sdCard = Environment.getExternalStorageDirectory();
                 File directory = new File(sdCard.getAbsolutePath());
-                File file = new File(directory, "StoreCheck_" + etDataRelatorio.getText().toString() + ".xls");
+                File file = new File(directory, "StoreCheck.xls");
                 sendEmail(file);
             }
         });

@@ -22,6 +22,8 @@
             android:visibility="visible"
             android:focusable="false"
             android:layout_weight="1"
+            android:divider="#020C0D"
+            android:dividerHeight="2dp"
             ></ListView>
 
         <LinearLayout

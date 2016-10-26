@@ -79,7 +79,7 @@ public class AdapterPrecos extends BaseAdapter {
             @Override
             public void afterTextChanged(Editable editable) {
                 if (!edPreco1.getText().toString().isEmpty()) {
-                    listaItens.get(position).setPreco1(Double.parseDouble(edPreco1.getText().toString()));
+                    listaItens.get(position).setPreco1(Double.parseDouble(edPreco1.getText().toString().replace(",",".")));
                 }
             }
         });
@@ -98,7 +98,7 @@ public class AdapterPrecos extends BaseAdapter {
             @Override
             public void afterTextChanged(Editable editable) {
                 if (!edPreco2.getText().toString().isEmpty()) {
-                    listaItens.get(position).setPreco2(Double.parseDouble(edPreco2.getText().toString()));
+                    listaItens.get(position).setPreco2(Double.parseDouble(edPreco2.getText().toString().replace(",",".")));
                 }
             }
         });

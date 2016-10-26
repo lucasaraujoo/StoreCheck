@@ -35,6 +35,8 @@
             android:focusable="false"
             android:layout_below="@+id/textView"
             android:layout_above="@+id/linearLayout1"
+            android:divider="#020C0D"
+            android:dividerHeight="2dp"
             android:layout_weight="1">
         </ListView>
 

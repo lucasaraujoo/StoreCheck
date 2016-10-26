@@ -100,12 +100,12 @@ public class MDaoProduto extends DaoMain{
                 produtos.add(new MProduto(0,"Barra grega", "Barras", "PDB"));
                 produtos.add(new MProduto(0,"Kero Coco 200ml", "Kero coco", "PDB"));
                 produtos.add(new MProduto(0,"Kero Coco 33-ml", "Kero Coco", "PDB"));
-                produtos.add(new MProduto(0,"Toddy 60gr", "Cookie", "PDB"));
-                produtos.add(new MProduto(0,"Toddy 75gr", "Cookie", "PDB"));
-                produtos.add(new MProduto(0,"Toddy 150gr", "Cookie", "PDB"));
-                produtos.add(new MProduto(0,"Quaker 150gr", "Cookie", "PDB"));
-                produtos.add(new MProduto(0,"Quaker 140gr", "Cookie", "PDB"));
-                produtos.add(new MProduto(0,"Quaker 40gr", "Cookie", "PDB"));
+                produtos.add(new MProduto(0,"Toddy Cookie 60gr", "Cookie", "PDB"));
+                produtos.add(new MProduto(0,"Toddy Cookie 75gr", "Cookie", "PDB"));
+                produtos.add(new MProduto(0,"Toddy Cookie 150gr", "Cookie", "PDB"));
+                produtos.add(new MProduto(0,"Quaker Cookie 150gr", "Cookie", "PDB"));
+                produtos.add(new MProduto(0,"Quaker Cookie 140gr", "Cookie", "PDB"));
+                produtos.add(new MProduto(0,"Quaker Cookie 40gr", "Cookie", "PDB"));
                 //Biscoitos
                 produtos.add(new MProduto(0,"Biscoito Mabel ameanteigado", "Mabel", "Biscoito"));
                 produtos.add(new MProduto(0,"Biscoito Mabel Laminado doce", "Mabel", "Biscoito"));
@@ -118,10 +118,10 @@ public class MDaoProduto extends DaoMain{
                 produtos.add(new MProduto(0,"Biscoito Mabel Doce vida Rech", "Mabel", "Biscoito"));
                 produtos.add(new MProduto(0,"Biscoito Mabel Sequilhos", "Mabel", "Biscoito"));
                 produtos.add(new MProduto(0,"Biscoito Mabel Tortinha", "Mabel", "Biscoito"));
-                produtos.add(new MProduto(0,"Biscoito Mabel Toddy Waffer", "Toddy", "Biscoito"));
-                produtos.add(new MProduto(0,"Biscoito Mabel Toddy Rech", "Toddy", "Biscoito"));
-                produtos.add(new MProduto(0,"Biscoito Mabel Toddy Torta", "Toddy", "Biscoito"));
-                produtos.add(new MProduto(0,"Biscoito Mabel Toddy Lanch", "Toddy", "Biscoito"));
+                produtos.add(new MProduto(0,"Biscoito Toddy Waffer", "Toddy", "Biscoito"));
+                produtos.add(new MProduto(0,"Biscoito Toddy Rech", "Toddy", "Biscoito"));
+                produtos.add(new MProduto(0,"Biscoito Toddy Torta", "Toddy", "Biscoito"));
+                produtos.add(new MProduto(0,"Biscoito Toddy Lanch", "Toddy", "Biscoito"));
 
 
                 String sQuery = "insert into produtos (Id, Descricao, Categoria, Tipo) values (?, ?, ?, ?)";

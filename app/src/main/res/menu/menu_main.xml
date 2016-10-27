@@ -10,7 +10,7 @@
     <item
         android:id="@+id/action_relatorios"
         android:orderInCategory="99"
-        android:title="Reatorios"
+        android:title="Relatorios"
         app:showAsAction="never"
         />
 </menu>

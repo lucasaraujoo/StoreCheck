@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:alpha="0.6"
         android:layout_below="@+id/etDataRelatorio"
-        android:src="@drawable/logomarca"/>
+        android:src="@mipmap/ic_logo"/>
     <RadioButton
         android:id="@+id/rbOpcaoRelatorio1"
         android:layout_width="wrap_content"

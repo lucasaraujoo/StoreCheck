@@ -8,6 +8,9 @@ import android.database.SQLException;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -44,23 +47,23 @@ public class EscolherItensCotar extends AppCompatActivity {
         setContentView(R.layout.activity_escolher_itens_cotar);
         super.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        btnCancelar = (Button) findViewById(R.id.btCancelar);
-        btnCancelar.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-              SairSemSalvar();
-            }
-        });
-
-        btnSalva = (Button) findViewById(R.id.btSalvar);
-        btnSalva.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                Salvar();
-            }
-        });
+//        btnCancelar = (Button) findViewById(R.id.btCancelar);
+//        btnCancelar.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View view) {
+//              SairSemSalvar();
+//            }
+//        });
+//
+//        btnSalva = (Button) findViewById(R.id.btSalvar);
+//        btnSalva.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View view) {
+//                Salvar();
+//            }
+//        });
 
         lista = (ListView) findViewById(R.id.listaProdutos);
         setCotacaoRecebida();
@@ -85,6 +88,26 @@ public class EscolherItensCotar extends AppCompatActivity {
 
         if(!bRecuperando)
             PegarProdutos();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_confirmar, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_cancelar:
+                SairSemSalvar();
+                break;
+            case R.id.action_confirmar:
+                Salvar();
+                break;
+        }
+        return true;
     }
 
     private void setCotacaoRecebida(){

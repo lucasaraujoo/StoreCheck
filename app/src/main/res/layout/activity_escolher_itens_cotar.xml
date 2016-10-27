@@ -26,28 +26,6 @@
             android:dividerHeight="2dp"
             ></ListView>
 
-        <LinearLayout
-            android:id="@+id/linearLayout1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="#DDDDDD"
-            android:padding="5dp"
-            android:layout_alignParentBottom="true"
-          >
-            <Button
-                android:id="@+id/btCancelar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Cancelar" />
-            <Button
-                android:id="@+id/btSalvar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Concluir" />
-        </LinearLayout>
     </LinearLayout>
 
 </RelativeLayout>

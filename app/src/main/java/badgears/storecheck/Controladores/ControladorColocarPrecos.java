@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -70,6 +73,35 @@ public class ControladorColocarPrecos extends AppCompatActivity {
         lista.setAdapter(adapterPrecos);
 
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_confirmar, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent secondActivity = null;
+        switch (item.getItemId()) {
+            case R.id.action_cancelar:
+                 secondActivity = new Intent(ControladorColocarPrecos.this.getApplicationContext(), MainActivity.class);
+                secondActivity.putExtra("BuscarCotacoes", false);
+                startActivity(secondActivity);
+                finish();
+                break;
+            case R.id.action_confirmar:
+                updatePrecos();
+                Toast.makeText(getApplicationContext(), "Produtos salvos", Toast.LENGTH_SHORT).show();
+                 secondActivity = new Intent(ControladorColocarPrecos.this.getApplicationContext(), MainActivity.class);
+                secondActivity.putExtra("BuscarCotacoes", false);
+                startActivity(secondActivity);
+                finish();
+                break;
+        }
+        return true;
     }
 
     private void setCotacaoRecebida(){

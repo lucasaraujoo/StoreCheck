@@ -47,6 +47,13 @@ public class dbUtil {
                     "Cotar      Integer NOT NULL,"+
                     "FOREIGN KEY (IdCotacao) REFERENCES cotacao(Id) ON DELETE CASCADE );"
             ,
+            "CREATE TRIGGER delete_det   \n" +
+                    "   AFTER DELETE   \n" +
+                    " ON[cotacao]  \n" +
+                    "  for each row  \n" +
+                    "    BEGIN  \n" +
+                    "        delete from produtoscotacao where Idcotacao= old.Id;  \n" +
+                    "    END;",
 
 
     };

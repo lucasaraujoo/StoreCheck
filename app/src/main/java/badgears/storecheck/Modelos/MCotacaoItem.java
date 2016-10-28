@@ -9,22 +9,22 @@ import android.os.Parcelable;
 public class MCotacaoItem implements Parcelable, Comparable<MCotacaoItem> {
     protected int Id;
     protected MProduto oProduto;
-    protected double Preco1;
-    protected double Preco2;
+    protected String Preco1;
+    protected String Preco2;
     protected Boolean bCotar;
 
     public MCotacaoItem(MProduto oProduto) {
         this.oProduto = oProduto;
         this.bCotar   = false;
-        this.Preco1  = 0.00;
-        this.Preco2  = 0.00;
+        this.Preco1  = "0,00";
+        this.Preco2  = "0,00";
     }
 
     protected MCotacaoItem(Parcel in) {
         Id       = in.readInt();
         oProduto = in.readParcelable(MProduto.class.getClassLoader());
-        Preco1      = in.readDouble();
-        Preco2      = in.readDouble();
+        Preco1      = in.readString();
+        Preco2      = in.readString();
         bCotar   = in.readByte() != 0;
     }
 
@@ -64,19 +64,19 @@ public class MCotacaoItem implements Parcelable, Comparable<MCotacaoItem> {
         this.oProduto = oProduto;
     }
 
-    public double getPreco1() {
+    public String getPreco1() {
         return Preco1;
     }
 
-    public void setPreco1(Double preco1) {
+    public void setPreco1(String preco1) {
         Preco1 = preco1;
     }
 
-    public double getPreco2() {
+    public String getPreco2() {
         return Preco2;
     }
 
-    public void setPreco2(Double preco2) {
+    public void setPreco2(String preco2) {
         Preco2 = preco2;
     }
 
@@ -94,8 +94,8 @@ public class MCotacaoItem implements Parcelable, Comparable<MCotacaoItem> {
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeInt(Id);
         parcel.writeParcelable(oProduto, i);
-        parcel.writeDouble(Preco1);
-        parcel.writeDouble(Preco2);
+        parcel.writeString(Preco1);
+        parcel.writeString(Preco2);
         parcel.writeByte((byte) (bCotar ? 1 : 0));
     }
 }

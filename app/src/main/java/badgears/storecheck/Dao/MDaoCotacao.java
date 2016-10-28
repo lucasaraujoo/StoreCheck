@@ -2,6 +2,7 @@ package badgears.storecheck.Dao;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
 
@@ -80,6 +81,27 @@ public class MDaoCotacao extends  DaoMain {
 return retorno;
     }
 
+    public String PegarUltimoStoreCheck (){
+        String retorno = "";
+        String attTotais = "select max(Id) as Id from cotacao";
+
+        Cursor c = db.rawQuery(attTotais, null);
+        try {
+            if (c.getCount() > 0) {
+                c.moveToFirst();
+                do {
+                    retorno = c.getString(c.getColumnIndex("Id"));
+                    return retorno;
+                }while(c.moveToNext());
+            }
+
+        } finally {
+            c.close();
+
+        }
+        return retorno;
+    }
+
     public boolean updatePrecos(ArrayList<MCotacaoItem> listaItens){
         boolean retorno = false;
         String updateCotacaoItens = "update produtoscotacao set "+
@@ -94,8 +116,8 @@ return retorno;
             for (int i = 0; i < listaItens.size(); i++) {
                 oItem = listaItens.get(i);
 
-                stmt.bindDouble(1, oItem.getPreco1());
-                stmt.bindDouble(2, oItem.getPreco2());
+                stmt.bindDouble(1, Double.parseDouble(oItem.getPreco1().replace(",",".")));
+                stmt.bindDouble(2,  Double.parseDouble(oItem.getPreco2().replace(",",".")));
                 stmt.bindLong(3, oItem.getId());
                 stmt.execute();
                 stmt.clearBindings();
@@ -107,6 +129,25 @@ return retorno;
             db.endTransaction();
         }
         return retorno;
+    }
+    public boolean DeletarStoreCheckPorData(String data){
+        try {
+
+                return db.delete("cotacao", "Data" + "='" + data + "'", null) > 0;
+
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean DeletarUltimoSoreCheck(){
+        if(PegarUltimoStoreCheck() == null){
+            return false;
+        }else {
+            return db.delete("cotacao", "Id" + "=" + PegarUltimoStoreCheck(), null) > 0;
+        }
     }
 
     public boolean gravaItensCotacao(MCotacao objCotacao){
@@ -127,8 +168,8 @@ return retorno;
 
                 stmt.bindLong(1, objCotacao.getID());
                 stmt.bindLong(2, oItem.getoProduto().getId());
-                stmt.bindDouble(3, oItem.getPreco1());
-                stmt.bindDouble(4, oItem.getPreco2());
+                stmt.bindDouble(3,  Double.parseDouble(oItem.getPreco1().replace(",",".")));
+                stmt.bindDouble(4,  Double.parseDouble(oItem.getPreco2().replace(",",".")));
                 stmt.bindLong(5, oItem.getbCotar() ? 1 : 0);
                 idCotacaoItem = (int) stmt.executeInsert();
                 oItem.setId(idCotacaoItem);
@@ -202,8 +243,8 @@ return retorno;
                     );
                     itemCotacao = new MCotacaoItem(oProduto);
                     itemCotacao.setbCotar(c.getInt(c.getColumnIndex("Cotar")) == 1 );
-                    itemCotacao.setPreco1(c.getDouble(c.getColumnIndex("Preco1")));
-                    itemCotacao.setPreco2(c.getDouble(c.getColumnIndex("Preco2")));
+                    itemCotacao.setPreco1(c.getString(c.getColumnIndex("Preco1")));
+                    itemCotacao.setPreco2(c.getString(c.getColumnIndex("Preco2")));
                     itemCotacao.setId(c.getInt(c.getColumnIndex("IdItem")));
 
                     oCotacao.getItensCotacao().add(itemCotacao);

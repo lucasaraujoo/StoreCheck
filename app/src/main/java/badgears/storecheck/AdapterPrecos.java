@@ -58,8 +58,8 @@ public class AdapterPrecos extends BaseAdapter {
         final EditText edPreco2 = (EditText)  itemView.findViewById(R.id.etValorMeu);
 
         tvItem.setText(listaItens.get(position).getoProduto().getDescricao());
-        edPreco1.setText(Double.toString( listaItens.get( position).getPreco1()));
-        edPreco2.setText(Double.toString( listaItens.get( position).getPreco2()));
+        edPreco1.setText(listaItens.get( position).getPreco1());
+        edPreco2.setText(listaItens.get( position).getPreco2());
 
 
 
@@ -79,7 +79,7 @@ public class AdapterPrecos extends BaseAdapter {
             @Override
             public void afterTextChanged(Editable editable) {
                 if (!edPreco1.getText().toString().isEmpty()) {
-                    listaItens.get(position).setPreco1(Double.parseDouble(edPreco1.getText().toString().replace(",",".")));
+                    listaItens.get(position).setPreco1(edPreco1.getText().toString().replace(",","."));
                 }
             }
         });
@@ -98,7 +98,7 @@ public class AdapterPrecos extends BaseAdapter {
             @Override
             public void afterTextChanged(Editable editable) {
                 if (!edPreco2.getText().toString().isEmpty()) {
-                    listaItens.get(position).setPreco2(Double.parseDouble(edPreco2.getText().toString().replace(",",".")));
+                    listaItens.get(position).setPreco2(edPreco2.getText().toString().replace(",","."));
                 }
             }
         });

@@ -44,7 +44,8 @@ public class DatePickerFragment extends DialogFragment
             mes = mes;
         }
         edDataRelatorio.setText(view.getDayOfMonth() + "/" + mes + "/" + view.getYear());
-        Toast.makeText(getActivity().getApplicationContext(), "DAta: " + view.getDayOfMonth() + "/" + view.getMonth() + "/" + view.getYear(), Toast.LENGTH_SHORT).show();
-
+        //Toast.makeText(getActivity().getApplicationContext(), "DAta: " + view.getDayOfMonth() + "/" + view.getMonth() + "/" + view.getYear(), Toast.LENGTH_SHORT).show();
     }
+
+
 }

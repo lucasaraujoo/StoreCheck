@@ -121,6 +121,15 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             return true;
         }
+        if(id == R.id.action_sobre){
+            Sobre();
+            return true;
+        }
+        if(id == R.id.action_deletar){
+           Intent intent = new Intent(this, DeletarStoreCheck.class);
+           startActivity(intent);
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -209,6 +218,26 @@ public class MainActivity extends AppCompatActivity {
             oDao.fechar();
             oDao = null;
         }
+    }
+
+    public void Sobre(){
+        android.app.AlertDialog dialog = new android.app.AlertDialog.Builder(this)
+                .setTitle(this.getString(R.string.app_name)+ " - Sobre")
+                .setMessage("O que há de novo: \n -Enviar Store check por e-mail. \n -Deletar Store check(O ultimo ou por data)." +
+                        "\n -Correção do teclado que ficava por cima dos preços. " +
+                        "\n -Altera botão Salvar e cancelar ao escolher itens e por preço." +
+                        "\n -Adiciona telefone o corrigir outras opções do relatorio."+
+                        "\n -Adicionar novo icone ao app." +
+                        "\n -Correção e liberar opção de deletar StoreCheck." +
+                        "\n\n Versão atual: 1.0 \n\nDesenvolvido por: Tulio Calil")
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        return;
+                    }
+                }).create();
+
+        dialog.show();
     }
 
     private boolean carregaItensCotacao(MCotacao oCotacao){

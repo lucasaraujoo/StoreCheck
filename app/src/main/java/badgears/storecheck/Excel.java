@@ -106,10 +106,10 @@ public class Excel extends DaoMain {
                         sheet.setColumnView(z,25);
                         sheetPrecos.setColumnView(i,25); //alterei a linha de baixo de 3 para 4
                         sheet.addCell(new Label(z+4, 0, title,getCellFormat(Colour.DARK_BLUE,Colour.WHITE,17))); // Escrevemos os produtos nas colunas
-                        sheetPrecos.addCell(new Label(i+3, 0, title + " - Meu preço",getCellFormat(Colour.DARK_BLUE,Colour.WHITE,10)));
+                        sheetPrecos.addCell(new Label(i+4, 0, title + " - Meu preço",getCellFormat(Colour.DARK_BLUE,Colour.WHITE,10)));
                         i++;
                         sheetPrecos.setColumnView(i,25);
-                        sheetPrecos.addCell(new Label(i+3, 0, title + " - Encontrado",getCellFormat(Colour.DARK_BLUE,Colour.WHITE,10)));
+                        sheetPrecos.addCell(new Label(i+4, 0, title + " - Encontrado",getCellFormat(Colour.DARK_BLUE,Colour.WHITE,10)));
                         i++;
                         z++;
                     } while (cursor.moveToNext());
@@ -207,9 +207,9 @@ public class Excel extends DaoMain {
                                     sheetPrecos.addCell(new Label(4, Linha, Segmentacao,getCellFormat(Colour.BLUE_GREY,Colour.WHITE,10)));
                                     //Desenhar Obs
                                     sheet.addCell(new Label(47, 0, "Observação",getCellFormat(Colour.DARK_BLUE,Colour.WHITE,17)));
-                                    sheetPrecos.addCell(new Label(88, 0, "Observação",getCellFormat(Colour.DARK_BLUE,Colour.WHITE,17)));
+                                    sheetPrecos.addCell(new Label(89, 0, "Observação",getCellFormat(Colour.DARK_BLUE,Colour.WHITE,17)));
                                     sheet.addCell(new Label(47, Linha, Obs,getCellFormat(Colour.BLUE_GREY,Colour.WHITE,10)));
-                                    sheetPrecos.addCell(new Label(88, Linha, Obs,getCellFormat(Colour.BLUE_GREY,Colour.WHITE,10)));
+                                    sheetPrecos.addCell(new Label(89, Linha, Obs,getCellFormat(Colour.BLUE_GREY,Colour.WHITE,10)));
                                     //Caso marque a opção
                                     if(exibirTotais){
                                         if(z<=27) {

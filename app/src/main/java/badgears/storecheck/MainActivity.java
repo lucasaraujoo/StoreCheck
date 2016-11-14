@@ -229,6 +229,9 @@ public class MainActivity extends AppCompatActivity {
                         "\n -Adiciona telefone o corrigir outras opções do relatorio."+
                         "\n -Adicionar novo icone ao app." +
                         "\n -Correção e liberar opção de deletar StoreCheck." +
+                        "\n -Corrigir foco no campo de por o preço em alguns celulares." +
+                        "\n -Adicionar texto de descrição ao por o preço." +
+                        "\n -Verificar se tem anexo antes de enviar o e-mail" +
                         "\n\n Versão atual: 1.0 \n\nDesenvolvido por: Tulio Calil")
                 .setCancelable(false)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {

@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Cotar" />
-        <activity android:name=".Controladores.ControladorColocarPrecos" />
+        <activity android:name=".Controladores.ControladorColocarPrecos" android:windowSoftInputMode="adjustPan" />
         <activity android:name=".Controladores.ControladorCotacao" />
         <activity android:name=".EscolherItensCotar" />
         <activity android:name=".AjudaActivity" />

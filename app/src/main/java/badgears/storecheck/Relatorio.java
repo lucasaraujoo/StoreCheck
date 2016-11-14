@@ -186,8 +186,13 @@ public class Relatorio extends AppCompatActivity {
         emailIntent.putExtra(Intent.EXTRA_TEXT, "Segue em anexo o Store Check");
 
         try {
-            startActivity(Intent.createChooser(emailIntent, "Escolha um aplicativo para enviar o e-mail..."));
-            finish();
+            if(file!=null) {
+                startActivity(Intent.createChooser(emailIntent, "Escolha um aplicativo para enviar o e-mail..."));
+                finish();
+            }
+            else {
+                Toast.makeText(getApplicationContext(), "Arquivo de relatorio não encontrado, favor tentar novamente.", Toast.LENGTH_SHORT).show();
+            }
         } catch (android.content.ActivityNotFoundException ex) {
             Toast.makeText(getApplicationContext(),
                     "Você não tem app de envio de e-mail, consulte a parte de Ajuda na tela inicial", Toast.LENGTH_SHORT).show();

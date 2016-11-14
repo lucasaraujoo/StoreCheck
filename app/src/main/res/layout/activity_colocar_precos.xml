@@ -26,12 +26,18 @@
             android:textSize="30dp"
             android:gravity="center"
             />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Seu preço | Preço achado"
+            android:textSize="12dp"
+            android:gravity="right"/>
+
 
         <ListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/ListaProdutosPrecos"
-            android:descendantFocusability="afterDescendants"
             android:focusable="false"
             android:layout_below="@+id/textView"
             android:layout_above="@+id/linearLayout1"
